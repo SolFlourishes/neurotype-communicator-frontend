@@ -7,21 +7,14 @@ import './TranslatePage.css';
 function TranslatePage() {
   const { mode } = useParams();
 
-  // State for neurotype selectors
   const [senderType, setSenderType] = useState('neurodivergent');
   const [receiverType, setReceiverType] = useState('neurotypical');
-
-  // State for form inputs
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
-
-  // State for API response
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
-
-  // State for feedback
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
@@ -47,10 +40,17 @@ function TranslatePage() {
     try {
       const response = await axiosClient.post('/api/translate', requestBody);
 
-      // Clean up Markdown code blocks from AI response
+      // --- NEW, MORE ROBUST FIX ---
+      // This function handles both backticks (```) and single quotes (''').
+      const cleanupString = (str) => {
+        if (!str) return '';
+        // This regular expression looks for three of either ' or `
+        return str.replace(/['`]{3}html/g, '').replace(/['`]{3}/g, '').trim();
+      };
+
       const cleanedData = {
-        response: response.data.response.replace(/```html/g, '').replace(/```/g, '').trim(),
-        explanation: response.data.explanation.replace(/```html/g, '').replace(/```/g, '').trim()
+        response: cleanupString(response.data.response),
+        explanation: cleanupString(response.data.explanation)
       };
 
       setAiResponse(cleanedData);
@@ -156,24 +156,3 @@ function TranslatePage() {
           <div className="response-section">
             <h2>Suggested Response</h2>
             <div dangerouslySetInnerHTML={{ __html: aiResponse.response }} />
-          </div>
-          <div className="response-section">
-            <h2>Explanation</h2>
-            <div dangerouslySetInnerHTML={{ __html: aiResponse.explanation }} />
-          </div>
-
-          {!feedbackSuccess && (
-            <div className="feedback-container">
-              <Feedback title="Rate the 'Suggested Response'" onRatingChange={setResponseRating} onCommentChange={setResponseComment} />
-              <Feedback title="Rate the 'Explanation'" onRatingChange={setExplanationRating} onCommentChange={setExplanationComment} />
-              <button onClick={handleFeedbackSubmit} className="submit-feedback-button">Submit Feedback</button>
-            </div>
-          )}
-          {feedbackSuccess && <div className="success-message">{feedbackSuccess}</div>}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default TranslatePage;
