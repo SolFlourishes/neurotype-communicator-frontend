@@ -17,6 +17,7 @@ export default async function handler(req, res) {
   });
 
   try {
+    // First, try to send the email
     await transporter.sendMail({
       from: `"${name}" <${process.env.SENDER_EMAIL}>`,
       to: process.env.RECIPIENT_EMAIL,
@@ -25,18 +26,18 @@ export default async function handler(req, res) {
       html: `<p>You have a new submission from ${name} (${email}):</p><p>${message}</p>`,
     });
 
-    // Also save to Firestore from the original backend
-    // This is a "fire and forget" call, we don't wait for its response
-    fetch(`${process.env.VITE_API_BASE_URL}/api/contact-save`, {
+    // If email is successful, then save to the database.
+    // This uses the NEW environment variable.
+    await fetch(`${process.env.RENDER_BACKEND_URL}/api/contact-save`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, subject, message }),
-    }).catch(err => console.error("Failed to save to DB:", err));
+    });
 
     return res.status(200).json({ message: 'Submission successful' });
 
   } catch (error) {
-    console.error('Email sending error:', error);
-    return res.status(500).json({ error: 'Error sending email.' });
+    console.error('Error in Vercel function:', error);
+    return res.status(500).json({ error: 'Error processing your request.' });
   }
 }
