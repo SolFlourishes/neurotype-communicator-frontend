@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axiosClient from '../api/axiosClient'; // Use the shared client
+import axios from 'axios'; // <-- THE FIX IS HERE
 import './ContactPage.css';
 
 function ContactPage() {
@@ -29,7 +29,8 @@ function ContactPage() {
     setSuccessMessage(null);
 
     try {
-      await axios.post('/api/contact', formData); // Use the local function path
+      // This call now correctly uses the imported 'axios'
+      await axios.post('/api/contact', formData);
       setSuccessMessage('Thank you for your message! We will get back to you shortly.');
       setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
     } catch (err) {
@@ -44,7 +45,7 @@ function ContactPage() {
     <div className="contact-container">
       <h1>Contact Us</h1>
       <p>Have a question, suggestion, or bug report? Let us know!</p>
-      
+
       {successMessage && <div className="success-message">{successMessage}</div>}
       {error && <div className="error-message">{error}</div>}
 
@@ -52,10 +53,10 @@ function ContactPage() {
         <form onSubmit={handleSubmit} className="contact-form">
           <label htmlFor="name">Name</label>
           <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
-          
+
           <label htmlFor="email">Email</label>
           <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-          
+
           <label htmlFor="subject">Subject</label>
           <select id="subject" name="subject" value={formData.subject} onChange={handleChange} required>
             <option>General Inquiry</option>
@@ -63,10 +64,10 @@ function ContactPage() {
             <option>Bug Report</option>
             <option>Feedback</option>
           </select>
-          
+
           <label htmlFor="message">Message</label>
           <textarea id="message" name="message" value={formData.message} onChange={handleChange} required />
-          
+
           <button type="submit" disabled={loading}>
             {loading ? 'Sending...' : 'Submit'}
           </button>
