@@ -1,27 +1,20 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosClient from '../api/axiosClient'; // Use the shared client
 import Feedback from '../components/Feedback.jsx';
 import './TranslatePage.css';
 
 function TranslatePage() {
   const { mode } = useParams();
 
-  // State for neurotype selectors
   const [senderType, setSenderType] = useState('neurodivergent');
   const [receiverType, setReceiverType] = useState('neurotypical');
-
-  // State for form inputs
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
-
-  // State for API response
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
-
-  // State for feedback
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
@@ -30,20 +23,22 @@ function TranslatePage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handleReset(); // Reset previous results
     setLoading(true);
+    setError(null);
+    setAiResponse(null);
+    setFeedbackSuccess(null);
 
     const requestBody = {
       mode,
       text,
       context,
       interpretation,
-      sender: senderType, // Use state instead of placeholder
-      receiver: receiverType, // Use state instead of placeholder
+      sender: senderType,
+      receiver: receiverType,
     };
 
     try {
-      const response = await axios.post('http://localhost:5001/api/translate', requestBody);
+      const response = await axiosClient.post('/api/translate', requestBody);
       setAiResponse(response.data);
     } catch (err) {
       setError('An error occurred. Please check the backend server and try again.');
@@ -65,23 +60,22 @@ function TranslatePage() {
   const handleFeedbackSubmit = async () => {
     const feedbackData = { responseRating, responseComment, explanationRating, explanationComment, mode };
     try {
-      await axios.post('http://localhost:5001/api/feedback', feedbackData);
+      await axiosClient.post('/api/feedback', feedbackData);
       setFeedbackSuccess('Thank you for your feedback!');
     } catch (err) {
       console.error('Failed to submit feedback', err);
     }
   };
-
+  
   const isDraftMode = mode === 'draft';
 
   return (
     <div className="translate-container">
       <Link to="/" className="back-link">‹ Back to Modes</Link>
-
+      
       <h1>{isDraftMode ? 'Draft a Message' : 'Analyze a Message'}</h1>
-
+      
       <form onSubmit={handleSubmit} className="translate-form">
-        {/* --- NEUROTYPE SELECTORS --- */}
         <div className="neurotype-selectors">
           <div className="selector-group">
             <label>My Communication Style</label>
@@ -119,7 +113,6 @@ function TranslatePage() {
           </div>
         </div>
 
-        {/* --- FORM INPUTS --- */}
         {isDraftMode ? (
           <>
             <label htmlFor="context">Context / Goal</label>
@@ -146,7 +139,23 @@ function TranslatePage() {
 
       {aiResponse && (
         <div className="response-container">
-          {/* ... (response and feedback sections) ... */}
+          <div className="response-section">
+            <h2>Suggested Response</h2>
+            <div dangerouslySetInnerHTML={{ __html: aiResponse.response }} />
+          </div>
+          <div className="response-section">
+            <h2>Explanation</h2>
+            <div dangerouslySetInnerHTML={{ __html: aiResponse.explanation }} />
+          </div>
+
+          {!feedbackSuccess && (
+            <div className="feedback-container">
+              <Feedback title="Rate the 'Suggested Response'" onRatingChange={setResponseRating} onCommentChange={setResponseComment} />
+              <Feedback title="Rate the 'Explanation'" onRatingChange={setExplanationRating} onCommentChange={setExplanationComment} />
+              <button onClick={handleFeedbackSubmit} className="submit-feedback-button">Submit Feedback</button>
+            </div>
+          )}
+          {feedbackSuccess && <div className="success-message">{feedbackSuccess}</div>}
         </div>
       )}
     </div>
