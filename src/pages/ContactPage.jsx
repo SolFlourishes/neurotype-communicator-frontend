@@ -29,7 +29,7 @@ function ContactPage() {
     setSuccessMessage(null);
 
     try {
-      await axiosClient.post('/api/contact', formData);
+      await axios.post('/api/contact', formData); // Use the local function path
       setSuccessMessage('Thank you for your message! We will get back to you shortly.');
       setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
     } catch (err) {
