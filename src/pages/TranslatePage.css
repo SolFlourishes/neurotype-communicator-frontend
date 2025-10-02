@@ -183,3 +183,20 @@
   border: 1px solid #3c8d40;
   color: #a0e9a4;
 }
+
+/* --- AGGRESSIVE COLOR FIX --- */
+/* This rule targets all common text elements inside the response box
+   and forces them to have a light color and transparent background,
+   preventing the "white box with white text" issue. */
+
+.response-section p,
+.response-section h1,
+.response-section h2,
+.response-section h3,
+.response-section h4,
+.response-section li,
+.response-section span,
+.response-section div {
+  color: #dfdffc !important;
+  background-color: transparent !important;
+}
