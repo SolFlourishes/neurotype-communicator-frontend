@@ -145,6 +145,7 @@
   background-color: #1a1a1a;
   padding: 1.5rem;
   border-radius: 8px;
+  color: #dfdffc; /* This is the fix */
 }
 
 .response-section h2 {

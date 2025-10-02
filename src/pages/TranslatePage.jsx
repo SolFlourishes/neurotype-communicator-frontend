@@ -7,14 +7,21 @@ import './TranslatePage.css';
 function TranslatePage() {
   const { mode } = useParams();
 
+  // State for neurotype selectors
   const [senderType, setSenderType] = useState('neurodivergent');
   const [receiverType, setReceiverType] = useState('neurotypical');
+
+  // State for form inputs
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
+
+  // State for API response
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
+
+  // State for feedback
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
@@ -39,7 +46,14 @@ function TranslatePage() {
 
     try {
       const response = await axiosClient.post('/api/translate', requestBody);
-      setAiResponse(response.data);
+
+      // Clean up Markdown code blocks from AI response
+      const cleanedData = {
+        response: response.data.response.replace(/```html/g, '').replace(/```/g, '').trim(),
+        explanation: response.data.explanation.replace(/```html/g, '').replace(/```/g, '').trim()
+      };
+
+      setAiResponse(cleanedData);
     } catch (err) {
       setError('An error occurred. Please check the backend server and try again.');
       console.error(err);
