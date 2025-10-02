@@ -1,0 +1,29 @@
+.alpha-banner {
+  background-color: #535bf2;
+  color: white;
+  padding: 0.75rem 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.alpha-banner p {
+  margin: 0;
+  padding-right: 2rem; /* Space for the button */
+}
+
+.dismiss-button {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 0.5rem;
+}
