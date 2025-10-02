@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axiosClient from '../api/axiosClient'; // Use the shared client
+import axiosClient from '../lib/axiosClient.js';
 import Feedback from '../components/Feedback.jsx';
 import './TranslatePage.css';
 

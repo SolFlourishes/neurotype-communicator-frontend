@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axiosClient from '../api/axiosClient'; // Use the shared client
+import axiosClient from '../lib/axiosClient.js';
 import './CoachPage.css';
 
 function CoachPage() {
