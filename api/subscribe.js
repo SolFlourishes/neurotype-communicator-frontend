@@ -1,4 +1,4 @@
-import brevo from '@getbrevo/brevo';
+import * as brevo from '@getbrevo/brevo';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email is required.' });
   }
 
-  // --- FIX: Correctly configure the Brevo API client ---
+  // Configure the Brevo API client
   let defaultClient = brevo.ApiClient.instance;
   let apiKey = defaultClient.authentications['apiKey'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
