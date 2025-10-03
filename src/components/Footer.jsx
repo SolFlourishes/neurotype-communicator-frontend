@@ -10,8 +10,8 @@ function Footer() {
   const [message, setMessage] = useState('');
 
   // Your Google Form details remain here
-  const GOOGLE_FORM_ACTION_URL = "PASTE_YOUR_FORM_RESPONSE_URL_HERE";
-  const GOOGLE_FORM_EMAIL_ENTRY_ID = "PASTE_YOUR_ENTRY_ID_HERE";
+  const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLScVhBIPHEumJ7zY0Zhhyk7Emvdp0fMsHd-rwmGWYEfonV3Nmg/formResponsem?usp=pp_url&entry.53261733=test@test.com";
+  const GOOGLE_FORM_EMAIL_ENTRY_ID = "entry.53261733";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
