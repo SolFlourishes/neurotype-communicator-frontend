@@ -16,7 +16,7 @@ function Footer() {
           <h4>Stay Updated</h4>
           <p>Sign up for notifications of new features and improvements.</p>
           <form
-            action={https://docs.google.com/forms/d/e/1FAIpQLScVhBIPHEumJ7zY0Zhhyk7Emvdp0fMsHd-rwmGWYEfonV3Nmg/formResponse?usp=pp_url&entry.53261733=test@test.com}
+            action={"https://docs.google.com/forms/d/e/1FAIpQLScVhBIPHEumJ7zY0Zhhyk7Emvdp0fMsHd-rwmGWYEfonV3Nmg/formResponse?usp=pp_url&entry.53261733=test@test.com"}
             method="POST"
             target="_blank"
             className="signup-form"
