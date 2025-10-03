@@ -23,7 +23,7 @@ function Footer() {
           >
             <input
               type="email"
-              name={ntry.53261733}
+              name={"entry.53261733"}
               placeholder="your.email@example.com"
               required
             />
