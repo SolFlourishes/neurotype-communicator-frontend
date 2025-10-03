@@ -1,4 +1,5 @@
-import { ApiClient, ContactsApi, CreateContact } from '@getbrevo/brevo';
+import pkg from '@getbrevo/brevo';
+const { ApiClient, ContactsApi, CreateContact } = pkg;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -10,7 +11,6 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email is required.' });
   }
 
-  // Configure the Brevo API client using the imported classes
   let defaultClient = ApiClient.instance;
   let apiKey = defaultClient.authentications['apiKey'];
   apiKey.apiKey = process.env.BREVO_API_KEY;
