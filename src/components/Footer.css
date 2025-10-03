@@ -1,11 +1,47 @@
-.app-footer {
-  border-top: 1px solid #333;
-  padding: 1.5rem 2rem;
-  text-align: center;
-  color: #888;
-  margin-top: auto; /* Pushes the footer to the bottom */
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
-
-.app-footer a {
-  color: #a0a0ff;
+.listserv-signup {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+.listserv-signup h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+.listserv-signup p {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+.signup-form {
+  display: flex;
+  gap: 0.5rem;
+}
+.signup-form input {
+  flex-grow: 1;
+  border: 1px solid #555;
+  background-color: #2f2f2f;
+  padding: 0.5rem;
+  border-radius: 4px;
+  color: white;
+}
+.signup-form button {
+  background-color: #646cff;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.signup-message {
+  margin-top: 0.75rem !important;
+  font-size: 0.8rem;
+  color: #a0e9a4;
 }
