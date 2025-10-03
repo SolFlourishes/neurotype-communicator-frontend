@@ -1,4 +1,4 @@
-const brevo = require('@getbrevo/brevo');
+import brevo from '@getbrevo/brevo';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
