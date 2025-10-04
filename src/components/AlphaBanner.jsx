@@ -1,38 +1,15 @@
-.alpha-banner {
-  background-color: #4a3a19; /* A soft, noticeable amber color for Beta */
-  color: #f7d59c;
-  padding: 0.75rem 2rem;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+import React from 'react';
+import './AlphaBanner.css';
+
+function AlphaBanner({ onDismiss }) {
+  return (
+    <div className="alpha-banner">
+      <p>
+        🔬 This is a **Beta Development Version**. Features may be unstable. Your feedback is crucial for the next release!
+      </p>
+      <button onClick={onDismiss} className="dismiss-button" aria-label="Dismiss banner">&times;</button>
+    </div>
+  );
 }
 
-.alpha-banner p {
-  margin: 0;
-  padding-right: 2rem; /* Space for the button */
-}
-
-.alpha-banner strong {
-    font-weight: bold;
-}
-
-.dismiss-button {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #f7d59c;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 0 0.5rem;
-  opacity: 0.7;
-}
-
-.dismiss-button:hover {
-    opacity: 1;
-}
+export default AlphaBanner;
