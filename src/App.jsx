@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
-import AlphaBanner from './components/AlphaBanner.jsx'; // Import the banner
+import AlphaBanner from './components/AlphaBanner.jsx';
+import { Analytics } from '@vercel/analytics/react'; // 1. Import Analytics
 import './AppLayout.css';
 
 function App() {
-  // State to control the banner's visibility
   const [showBanner, setShowBanner] = useState(true);
 
   const handleDismissBanner = () => {
@@ -15,14 +15,13 @@ function App() {
 
   return (
     <div className="app-layout">
-      {/* Conditionally render the banner based on state */}
       {showBanner && <AlphaBanner onDismiss={handleDismissBanner} />}
-
       <Header />
       <main className="app-main-content">
         <Outlet />
       </main>
       <Footer />
+      <Analytics /> {/* 2. Add the Analytics component */}
     </div>
   );
 }
