@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axiosClient from '../lib/axiosClient.js';
+import axios from 'axios';
 import Feedback from '../components/Feedback.jsx';
 import { version } from '../../package.json';
 import './TranslatePage.css';
@@ -33,12 +33,12 @@ function TranslatePage() {
 
     try {
       if (senderStyle === 'let-ai-decide') {
-        const classificationResponse = await axiosClient.post('/api/classify-style', { text });
+        const classificationResponse = await axios.post('/api/classify-style', { text });
         finalSenderStyle = classificationResponse.data.style;
       }
 
       const requestBody = { mode, text, context, interpretation, sender: finalSenderStyle, receiver: receiverStyle };
-      const translateResponse = await axiosClient.post('/api/translate', requestBody);
+      const translateResponse = await axios.post('/api/translate', requestBody);
       
       const cleanupString = (str) => {
         if (!str) return '';
@@ -78,7 +78,7 @@ function TranslatePage() {
       version: version,
     };
     try {
-      await axiosClient.post('/api/feedback', feedbackData);
+      await axios.post('/api/feedback', feedbackData);
       setFeedbackSuccess('Thank you for your feedback!');
     } catch (err) {
       console.error('Failed to submit feedback', err);
