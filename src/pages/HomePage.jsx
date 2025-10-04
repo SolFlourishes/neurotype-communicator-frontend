@@ -1,6 +1,6 @@
 import React from 'react';
 import ModeCard from '../components/ModeCard.jsx';
-import './HomePage.css';
+import './HomePage.css'; // This line is crucial
 
 function HomePage() {
   return (
