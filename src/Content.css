@@ -1,62 +1,86 @@
+/* Main container for static content pages */
 .content-page {
   padding: 2rem;
   max-width: 900px;
   margin: 0 auto;
 }
 
+/* Main page title */
 .content-page h1 {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #ccc;
-  border-bottom: 1px solid #444;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 0.75rem;
 }
 
+/* Section headings */
 .content-page h2 {
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: 2.5rem;
   margin-bottom: 0.75rem;
-  color: #bbb;
+  color: var(--text-secondary);
 }
 
+/* Sub-headings */
 .content-page h3 {
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
+.content-page h4 {
+  font-weight: 600;
+}
+
+/* Mission statement/introductory paragraph */
 .mission {
   font-size: 1.1rem;
-  color: #aaa;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
 }
 
+/* Card-like containers for content blocks */
 .bg-gray-50 {
-  background-color: #2f2f2f;
+  background-color: var(--surface);
   padding: 1.5rem;
   border-radius: 8px;
-  border: 1px solid #444;
+  border: 1px solid var(--border);
   margin-top: 1.5rem;
 }
 
+/* Inner cards, used on the How-to-Use page */
 .bg-white {
-  background-color: #242424;
-   padding: 1rem;
-   border-radius: 6px;
-   border: 1px solid #444;
+  background-color: var(--background);
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
 }
 
+/* List styles */
 .list-disc {
   list-style-type: disc;
   padding-left: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.list-disc strong {
+  color: var(--text-primary);
 }
 
 .space-y-2 > * + * {
   margin-top: 0.5rem;
 }
 
-/* Styles for Roadmap page */
-.bg-blue-50 { background-color: #2a2a4b; border: 1px solid #4a4a9c; }
-.bg-green-50 { background-color: #2a4b37; border: 1px solid #3c8d40; }
+/* Specific styles for the Roadmap page cards */
+.bg-blue-50 { 
+  background-color: #2a2a4b; 
+  border: 1px solid #4a4a9c; 
+}
+.bg-green-50 { 
+  background-color: var(--success-bg); 
+  border: 1px solid var(--success-border); 
+}

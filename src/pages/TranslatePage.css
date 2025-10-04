@@ -62,8 +62,8 @@
 }
 
 .options label.selected {
-  background-color: #3e4499;
-  border-color: #646cff;
+  background-color: var(--primary);
+  border-color: var(--primary);
   font-weight: bold;
 }
 

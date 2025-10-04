@@ -1,3 +1,14 @@
+/* Main footer container */
+.app-footer {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  color: var(--text-secondary); /* Softer text color */
+  background-color: var(--background);
+  margin-top: auto; /* Pushes the footer to the bottom */
+}
+
+/* Inner content wrapper */
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -6,42 +17,72 @@
   align-items: center;
   gap: 2rem;
 }
+
+/* Link color within the footer */
+.app-footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Listserv signup form section */
 .listserv-signup {
   max-width: 400px;
   width: 100%;
   text-align: center;
 }
+
 .listserv-signup h4 {
   margin: 0 0 0.5rem 0;
   font-size: 1.1rem;
+  color: var(--text-primary); /* Use primary text color for heading */
 }
+
 .listserv-signup p {
   margin: 0 0 1rem 0;
   font-size: 0.9rem;
-  color: #aaa;
+  color: var(--text-secondary); /* Use secondary text color */
 }
+
+/* Form layout */
 .signup-form {
   display: flex;
   gap: 0.5rem;
 }
+
 .signup-form input {
   flex-grow: 1;
-  border: 1px solid #555;
-  background-color: #2f2f2f;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
   padding: 0.5rem;
   border-radius: 4px;
-  color: white;
+  color: var(--text-primary);
 }
+
 .signup-form button {
-  background-color: #646cff;
+  background-color: var(--primary);
   border: none;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
+
+.signup-form button:hover {
+  background-color: #4f46e5; /* Darker shade of primary */
+}
+
+/* Confirmation message below the form */
 .signup-message {
   margin-top: 0.75rem !important;
   font-size: 0.8rem;
-  color: #a0e9a4;
+  color: var(--success-text);
+}
+
+.copyright {
+  width: 100%;
 }
