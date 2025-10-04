@@ -2,19 +2,27 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axiosClient from '../lib/axiosClient.js';
 import Feedback from '../components/Feedback.jsx';
+import { version } from '../../package.json'; // Import version number
 import './TranslatePage.css';
 
 function TranslatePage() {
   const { mode } = useParams();
 
+  // State for neurotype selectors
   const [senderType, setSenderType] = useState('neurodivergent');
   const [receiverType, setReceiverType] = useState('neurotypical');
+
+  // State for form inputs
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
+
+  // State for API response
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
+
+  // State for feedback
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
@@ -69,7 +77,14 @@ function TranslatePage() {
   };
 
   const handleFeedbackSubmit = async () => {
-    const feedbackData = { responseRating, responseComment, explanationRating, explanationComment, mode };
+    const feedbackData = {
+      responseRating,
+      responseComment,
+      explanationRating,
+      explanationComment,
+      mode,
+      version: version, // Add the version to the payload
+    };
     try {
       await axiosClient.post('/api/feedback', feedbackData);
       setFeedbackSuccess('Thank you for your feedback!');
@@ -77,15 +92,15 @@ function TranslatePage() {
       console.error('Failed to submit feedback', err);
     }
   };
-
+  
   const isDraftMode = mode === 'draft';
 
   return (
     <div className="translate-container">
       <Link to="/" className="back-link">‹ Back to Modes</Link>
-
+      
       <h1>{isDraftMode ? 'Draft a Message' : 'Analyze a Message'}</h1>
-
+      
       <form onSubmit={handleSubmit} className="translate-form">
         <div className="neurotype-selectors">
           <div className="selector-group">
@@ -158,6 +173,7 @@ function TranslatePage() {
             <h2>Explanation</h2>
             <div dangerouslySetInnerHTML={{ __html: aiResponse.explanation }} />
           </div>
+
           {!feedbackSuccess && (
             <div className="feedback-container">
               <Feedback title="Rate the 'Suggested Response'" onRatingChange={setResponseRating} onCommentChange={setResponseComment} />
