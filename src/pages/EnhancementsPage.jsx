@@ -1,46 +1,49 @@
 import React from 'react';
 import '../Content.css';
 
-function EnhancementsPage() {
+function RoadmapPage() {
   return (
     <div className="content-page">
-      <h1>Proposed Future Enhancements</h1>
-      <p className="mission"><strong>Our Goal:</strong> To evolve from a powerful communicator into a truly personalized, context-aware communication partner that learns and grows with you.</p>
+      <h1>Application Roadmap</h1>
+      <p className="mission">We believe in transparency. This page outlines the current state of our application and our vision for the future, so our alpha testers know what to expect and how they can help us grow.</p>
 
-      <div className="bg-gray-50 p-6 rounded-lg mt-8 border">
-          <h2>Pillar 1: Building the AI Brain</h2>
-          <div className="bg-white">
-              <h3 className="font-bold text-lg mb-2">User-Improved Translations (The "Golden" Feedback Loop)</h3>
-              <p>To solve the "garbage in, garbage out" problem, the Beta version will allow users to directly edit and improve the AI's suggestions. By submitting their "perfect" version, users will provide the highest quality training data possible, allowing us to build a world-class, nuanced AI brain.</p>
+      <div className="bg-blue-50 p-6 rounded-lg mt-8 border border-blue-200">
+          <h2>Current Phase: Alpha Version</h2>
+          <p className="text-gray-700 mb-4">The version you are using now is an early, functional release. Its primary purpose is to test the core mechanics and gather essential user feedback.</p>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem'}}>
+              <div>
+                  <h3 className="font-bold text-lg mb-2 text-gray-800">Strengths</h3>
+                  <ul className="list-disc list-inside pl-4 space-y-2 text-gray-600">
+                      <li>Core translation and analysis features are live.</li>
+                      <li>The "intent-first" UI is in place.</li>
+                      <li>Feedback system is actively collecting data.</li>
+                  </ul>
+              </div>
+              <div>
+                  <h3 className="font-bold text-lg mb-2 text-gray-800">Limitations (What to Expect)</h3>
+                  <ul className="list-disc list-inside pl-4 space-y-2 text-gray-600">
+                      <li>The AI's responses are good, but can sometimes feel generic.</li>
+                      <li>The Coach Mode has a "short-term memory."</li>
+                      <li>No user accounts or personalization features yet.</li>
+                  </ul>
+              </div>
           </div>
       </div>
 
-      <div className="bg-gray-50 p-6 rounded-lg mt-8 border">
-          <h2>Pillar 2: Behavioral & Situational Decoding</h2>
-          <div className="bg-white"><h3 className="font-bold text-lg mb-2">The Behavioral Translator</h3><p>Communication is more than just words. This feature will help you decode actions and situations. You'll be able to describe a behavior (e.g., "The facilitator tapped their wrist at me when I tried to speak") and your interpretation ("I felt silenced and took it personally") to get an analysis of the likely intent.</p></div>
-      </div>
-
-      <div className="bg-gray-50 p-6 rounded-lg mt-8 border">
-          <h2>Pillar 3: Hyper-Personalization</h2>
-          <div className="bg-white" style={{marginBottom: '1rem'}}><h3 className="font-bold text-lg mb-2">Secure User Accounts & History</h3><p>Create a private, secure profile where all translations, analyses, and coaching conversations are saved, allowing you to track your progress and review past insights.</p></div>
-          <div className="bg-white"><h3 className="font-bold text-lg mb-2">"Key Contacts" Profiles</h3><p>Create profiles for people you communicate with regularly (e.g., "My Boss - NT, values brevity"). The AI will use these profiles to generate hyper-personalized and contextually aware translations.</p></div>
-      </div>
-
-      <div className="bg-gray-50 p-6 rounded-lg mt-8 border">
-          <h2>Pillar 4: Adding Context & Nuance</h2>
-          <div className="bg-white" style={{marginBottom: '1rem'}}><h3 className="font-bold text-lg mb-2">Mixed Audience Mode</h3><p>Communicate from one neurotype to a mixed audience of both NT and ND individuals, with explanations of potential pitfalls.</p></div>
-          <div className="bg-white" style={{marginBottom: '1rem'}}><h3 className="font-bold text-lg mb-2">DISC Profile Integration</h3><p>Incorporate the DISC personality assessment as an additional layer to tailor suggestions based on known communication styles.</p></div>
-          <div className="bg-white" style={{marginBottom: '1rem'}}><h3 className="font-bold text-lg mb-2">Full Conversation Context</h3><p>Upload or paste an entire email thread to get an analysis based on the flow of the conversation.</p></div>
-          <div className="bg-white"><h3 className="font-bold text-lg mb-2">Granular Neurotype Selections</h3><p>Specify a neurotype (e.g., Autism, ADHD) to get even more accurate and empathetic translations.</p></div>
-      </div>
-
-      <div className="bg-gray-50 p-6 rounded-lg mt-8 border">
-          <h2>Pillar 5: Platform Expansion & Skill Building</h2>
-          <div className="bg-white" style={{marginBottom: '1rem'}}><h3 className="font-bold text-lg mb-2">Mobile App & Browser Extension</h3><p>Dedicated apps to bring the Communicator directly into your workflow on any device.</p></div>
-          <div className="bg-white"><h3 className="font-bold text-lg mb-2">Practice Conversation Simulator</h3><p>Engage in a real-time, back-and-forth conversation with a custom AI persona (e.g., "An indirect NT manager") to practice a difficult conversation in a safe, judgment-free environment. Receive a detailed performance report afterward with actionable tips.</p></div>
+      <div className="bg-green-50 p-6 rounded-lg mt-8 border border-green-200">
+          <h2>Next Phase: Beta Version</h2>
+          <p className="text-gray-700 mb-4">The Beta version will be a major leap forward in intelligence and accuracy, powered by the feedback and research gathered during the Alpha phase.</p>
+          <div>
+              <h3 className="font-bold text-lg mb-2 text-gray-800">Key Enhancements</h3>
+              <ul className="list-disc list-inside pl-4 space-y-2 text-gray-600">
+                  <li><strong>A Smarter AI Brain:</strong> Implementing a Retrieval Augmented Generation (RAG) system using scholarly articles and user-rated examples.</li>
+                  <li><strong>Personalization:</strong> Introducing secure user accounts and "Key Contacts" profiles.</li>
+                  <li><strong>Deeper Nuance:</strong> Adding granular neurotype, cross-cultural, and <strong>generational/age-aware</strong> selections to provide more specific and empathetic guidance.</li>
+              </ul>
+          </div>
       </div>
     </div>
   );
 }
 
-export default EnhancementsPage;
+export default RoadmapPage;
