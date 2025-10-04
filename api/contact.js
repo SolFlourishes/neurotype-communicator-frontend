@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
+
   const { name, email, subject, message } = req.body;
   
   const transporter = nodemailer.createTransport({
@@ -18,7 +19,7 @@ export default async function handler(req, res) {
   });
 
   try {
-    // Send the email first
+    // 1. Send the email via Brevo
     await transporter.sendMail({
       from: `"${name}" <${process.env.SENDER_EMAIL}>`,
       to: process.env.RECIPIENT_EMAIL,
@@ -27,13 +28,21 @@ export default async function handler(req, res) {
       html: `<p>You have a new submission from ${name} (${email}):</p><p>${message}</p>`,
     });
     
-    // If email is successful, save the submission to the database
-    const newSubmission = { name, email, subject, message, appVersion: version, submittedAt: new Date().toISOString() };
+    // 2. Save the submission to Firestore
+    const newSubmission = { 
+      name, 
+      email, 
+      subject, 
+      message, 
+      appVersion: version, 
+      submittedAt: new Date().toISOString() 
+    };
     await db.collection('contacts').add(newSubmission);
 
     return res.status(200).json({ message: 'Submission successful' });
+
   } catch (error) {
-    console.error('Error in Vercel function:', error);
+    console.error('Error in /api/contact function:', error);
     return res.status(500).json({ error: 'Error processing your request.' });
   }
 }
