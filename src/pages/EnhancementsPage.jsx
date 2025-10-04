@@ -45,8 +45,14 @@ function EnhancementsPage() {
           <div className="bg-white" style={{marginBottom: '1rem'}}><h3 className="font-bold text-lg mb-2">Full Conversation Context</h3><p>Upload or paste an entire email thread to get an analysis based on the flow of the conversation.</p></div>
           <div className="bg-white"><h3 className="font-bold text-lg mb-2">Granular Neurotype Selections</h3><p>Specify a neurotype (e.g., Autism, ADHD) to get even more accurate and empathetic translations.</p></div>
       </div>
-      
+
       <div className="bg-gray-50 p-6 rounded-lg mt-8 border">
           <h2>Pillar 6: Platform Expansion & Skill Building</h2>
           <div className="bg-white" style={{marginBottom: '1rem'}}><h3 className="font-bold text-lg mb-2">Mobile App & Browser Extension</h3><p>Dedicated apps to bring the Communicator directly into your workflow on any device.</p></div>
-          <div className="bg-white"><h3 className="font-bold text-lg mb-2">Practice Conversation Simulator</h3><p>Engage in a real-time, back-and-forth conversation with a custom AI persona to practice a difficult conversation in a safe, judgment-free environment. Receive a detailed
+          <div className="bg-white"><h3 className="font-bold text-lg mb-2">Practice Conversation Simulator</h3><p>Engage in a real-time, back-and-forth conversation with a custom AI persona to practice a difficult conversation in a safe, judgment-free environment. Receive a detailed performance report afterward with actionable tips.</p></div>
+      </div>
+    </div>
+  );
+}
+
+export default EnhancementsPage;
