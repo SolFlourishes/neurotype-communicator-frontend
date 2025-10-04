@@ -2,27 +2,20 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axiosClient from '../lib/axiosClient.js';
 import Feedback from '../components/Feedback.jsx';
-import { version } from '../../package.json'; // Import version number
+import { version } from '../../package.json';
 import './TranslatePage.css';
 
 function TranslatePage() {
   const { mode } = useParams();
 
-  // State for neurotype selectors
-  const [senderType, setSenderType] = useState('neurodivergent');
-  const [receiverType, setReceiverType] = useState('neurotypical');
-
-  // State for form inputs
+  const [senderStyle, setSenderStyle] = useState('let-ai-decide');
+  const [receiverStyle, setReceiverStyle] = useState('indirect');
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
-
-  // State for API response
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
-
-  // State for feedback
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
@@ -36,29 +29,28 @@ function TranslatePage() {
     setAiResponse(null);
     setFeedbackSuccess(null);
 
-    const requestBody = {
-      mode,
-      text,
-      context,
-      interpretation,
-      sender: senderType,
-      receiver: receiverType,
-    };
+    let finalSenderStyle = senderStyle;
 
     try {
-      const response = await axiosClient.post('/api/translate', requestBody);
+      if (senderStyle === 'let-ai-decide') {
+        const classificationResponse = await axiosClient.post('/api/classify-style', { text });
+        finalSenderStyle = classificationResponse.data.style;
+      }
 
+      const requestBody = { mode, text, context, interpretation, sender: finalSenderStyle, receiver: receiverStyle };
+      const translateResponse = await axiosClient.post('/api/translate', requestBody);
+      
       const cleanupString = (str) => {
         if (!str) return '';
         return str.replace(/['`]{3}html/g, '').replace(/['`]{3}/g, '').trim();
       };
 
       const cleanedData = {
-        response: cleanupString(response.data.response),
-        explanation: cleanupString(response.data.explanation)
+        response: cleanupString(translateResponse.data.response),
+        explanation: cleanupString(translateResponse.data.explanation)
       };
-
       setAiResponse(cleanedData);
+
     } catch (err) {
       setError('An error occurred. Please check the backend server and try again.');
       console.error(err);
@@ -83,7 +75,7 @@ function TranslatePage() {
       explanationRating,
       explanationComment,
       mode,
-      version: version, // Add the version to the payload
+      version: version,
     };
     try {
       await axiosClient.post('/api/feedback', feedbackData);
@@ -98,42 +90,43 @@ function TranslatePage() {
   return (
     <div className="translate-container">
       <Link to="/" className="back-link">‹ Back to Modes</Link>
-      
       <h1>{isDraftMode ? 'Draft a Message' : 'Analyze a Message'}</h1>
-      
       <form onSubmit={handleSubmit} className="translate-form">
         <div className="neurotype-selectors">
           <div className="selector-group">
-            <label>My Communication Style</label>
+            <label>My Communication Style tends to be:
+              <span className="tooltip-container"> (i)
+                <span className="tooltip-text">
+                  <strong>Direct & Literal:</strong> You tend to say what you mean, focus on facts, and prefer clear language.<br/><br/>
+                  <strong>Indirect & Nuanced:</strong> You often use context, social rapport, and subtext to convey meaning.
+                </span>
+              </span>
+            </label>
             <div className="options">
-              <label className={senderType === 'neurodivergent' ? 'selected' : ''}>
-                <input type="radio" name="sender" value="neurodivergent" checked={senderType === 'neurodivergent'} onChange={(e) => setSenderType(e.target.value)} />
-                Neurodivergent
+              <label className={senderStyle === 'direct' ? 'selected' : ''}>
+                <input type="radio" name="sender" value="direct" checked={senderStyle === 'direct'} onChange={(e) => setSenderStyle(e.target.value)} />
+                Direct & Literal
               </label>
-              <label className={senderType === 'neurotypical' ? 'selected' : ''}>
-                <input type="radio" name="sender" value="neurotypical" checked={senderType === 'neurotypical'} onChange={(e) => setSenderType(e.target.value)} />
-                Neurotypical
+              <label className={senderStyle === 'indirect' ? 'selected' : ''}>
+                <input type="radio" name="sender" value="indirect" checked={senderStyle === 'indirect'} onChange={(e) => setSenderStyle(e.target.value)} />
+                Indirect & Nuanced
               </label>
-               <label className={senderType === 'unsure' ? 'selected' : ''}>
-                <input type="radio" name="sender" value="unsure" checked={senderType === 'unsure'} onChange={(e) => setSenderType(e.target.value)} />
-                Unsure
+               <label className={senderStyle === 'let-ai-decide' ? 'selected' : ''}>
+                <input type="radio" name="sender" value="let-ai-decide" checked={senderStyle === 'let-ai-decide'} onChange={(e) => setSenderStyle(e.target.value)} />
+                Let the AI Decide
               </label>
             </div>
           </div>
           <div className="selector-group">
-            <label>My Audience's Style</label>
+            <label>My Audience's Style tends to be:</label>
             <div className="options">
-              <label className={receiverType === 'neurodivergent' ? 'selected' : ''}>
-                <input type="radio" name="receiver" value="neurodivergent" checked={receiverType === 'neurodivergent'} onChange={(e) => setReceiverType(e.target.value)} />
-                Neurodivergent
+              <label className={receiverStyle === 'direct' ? 'selected' : ''}>
+                <input type="radio" name="receiver" value="direct" checked={receiverStyle === 'direct'} onChange={(e) => setReceiverStyle(e.target.value)} />
+                Direct & Literal
               </label>
-              <label className={receiverType === 'neurotypical' ? 'selected' : ''}>
-                <input type="radio" name="receiver" value="neurotypical" checked={receiverType === 'neurotypical'} onChange={(e) => setReceiverType(e.target.value)} />
-                Neurotypical
-              </label>
-              <label className={receiverType === 'unsure' ? 'selected' : ''}>
-                <input type="radio" name="receiver" value="unsure" checked={receiverType === 'unsure'} onChange={(e) => setReceiverType(e.target.value)} />
-                Unsure
+              <label className={receiverStyle === 'indirect' ? 'selected' : ''}>
+                <input type="radio" name="receiver" value="indirect" checked={receiverStyle === 'indirect'} onChange={(e) => setReceiverStyle(e.target.value)} />
+                Indirect & Nuanced
               </label>
             </div>
           </div>
@@ -173,7 +166,6 @@ function TranslatePage() {
             <h2>Explanation</h2>
             <div dangerouslySetInnerHTML={{ __html: aiResponse.explanation }} />
           </div>
-
           {!feedbackSuccess && (
             <div className="feedback-container">
               <Feedback title="Rate the 'Suggested Response'" onRatingChange={setResponseRating} onCommentChange={setResponseComment} />

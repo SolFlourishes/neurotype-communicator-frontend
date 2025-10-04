@@ -189,3 +189,46 @@
   color: #dfdffc !important;
   background-color: transparent !important;
 }
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  border: 1px solid var(--text-secondary);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  line-height: 16px;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 250px;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  text-align: left;
+  border-radius: 6px;
+  padding: 1rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -125px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: 1px solid var(--border);
+  font-style: normal;
+  font-weight: normal;
+}
+
+.tooltip-text strong {
+    color: var(--primary);
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
