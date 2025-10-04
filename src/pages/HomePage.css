@@ -1,18 +1,17 @@
-.homepage-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.hero-section {
   text-align: center;
-  gap: 2rem;
-  padding: 2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
 }
 
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 1000px;
+.hero-section h1 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #dfdffc;
+  margin-bottom: 1rem;
+}
+
+.mission-statement {
+  font-size: 1.2rem;
+  color: #aaa;
 }

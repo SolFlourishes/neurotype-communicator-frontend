@@ -5,6 +5,12 @@ function ChangeLogPage() {
   return (
     <div className="content-page">
       <h1>Change Log</h1>
+       <div className="mt-6">
+        <h2 className="text-2xl font-semibold text-gray-700">Version 1.2 (Alpha)</h2>
+        <ul className="list-disc list-inside pl-4 mt-2 text-gray-600 space-y-2">
+          <li>Added a welcoming "hero section" to the homepage to improve user orientation and engagement.</li>
+        </ul>
+      </div>
       <div className="mt-6">
         <h2 className="text-2xl font-semibold text-gray-700">Version 1.1 (Alpha)</h2>
         <ul className="list-disc list-inside pl-4 mt-2 text-gray-600 space-y-2">

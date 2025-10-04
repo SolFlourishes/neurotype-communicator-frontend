@@ -5,7 +5,11 @@ import './HomePage.css';
 function HomePage() {
   return (
     <div className="homepage-container">
-      <h1>Choose a Mode</h1>
+      <div className="hero-section">
+        <h1>Welcome to the Neurotype Communicator</h1>
+        <p className="mission-statement">Translate communication styles, not people. Bridge the gap and find your clarity below.</p>
+      </div>
+
       <div className="cards-container">
         <ModeCard
           title="Draft a Message"
