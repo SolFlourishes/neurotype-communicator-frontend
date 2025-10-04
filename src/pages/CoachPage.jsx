@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axiosClient from '../lib/axiosClient.js'; // <-- THE FIX IS HERE
+import axios from 'axios'; // Use standard axios
 import './CoachPage.css';
 
 function CoachPage() {
@@ -20,14 +20,14 @@ function CoachPage() {
 
     const newUserMessage = { role: 'user', content: userInput };
     const updatedHistory = [...history, newUserMessage];
-
+    
     setHistory(updatedHistory);
     setUserInput('');
     setLoading(true);
     setError(null);
 
     try {
-      const response = await axiosClient.post('/api/chat', {
+      const response = await axios.post('/api/chat', { // Call local path
         history: history,
         message: userInput,
       });
@@ -48,7 +48,7 @@ function CoachPage() {
       <Link to="/" className="back-link">‹ Back to Modes</Link>
       <h1>AI Coach</h1>
       <p>Brainstorm ideas and build your confidence for a tough conversation.</p>
-
+      
       <div className="chat-window">
         {history.map((turn, index) => (
           <div key={index} className={`chat-message ${turn.role}`}>

@@ -1,42 +1,39 @@
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import db from '../src/lib/firebaseAdmin.js';
+import nodemailer from 'nodemailer';
+import { version } from '../package.json';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
-
   const { name, email, subject, message } = req.body;
+  
+  const transporter = nodemailer.createTransport({
+    host: 'smtp-relay.brevo.com',
+    port: 587,
+    auth: {
+      user: process.env.BREVO_USER,
+      pass: process.env.BREVO_API_KEY,
+    },
+  });
 
   try {
-    const { data, error } = await resend.emails.send({
-      from: 'Neurotype Communicator <onboarding@resend.dev>',
-      to: [process.env.RECIPIENT_EMAIL],
+    // Send the email first
+    await transporter.sendMail({
+      from: `"${name}" <${process.env.SENDER_EMAIL}>`,
+      to: process.env.RECIPIENT_EMAIL,
+      replyTo: email,
       subject: `New Contact Form Submission: ${subject}`,
-      html: `
-        <h3>You have a new submission from ${name} (${email}):</h3>
-        <p>${message}</p>
-      `,
-      reply_to: email,
+      html: `<p>You have a new submission from ${name} (${email}):</p><p>${message}</p>`,
     });
+    
+    // If email is successful, save the submission to the database
+    const newSubmission = { name, email, subject, message, appVersion: version, submittedAt: new Date().toISOString() };
+    await db.collection('contacts').add(newSubmission);
 
-    if (error) {
-      console.error({ error });
-      return res.status(400).json(error);
-    }
-
-    // Save to the database after successful email send
-    fetch(`${process.env.RENDER_BACKEND_URL}/api/contact-save`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, subject, message }),
-    }).catch(err => console.error("Failed to save to DB:", err));
-
-    return res.status(200).json(data);
-
+    return res.status(200).json({ message: 'Submission successful' });
   } catch (error) {
-    console.error('CRITICAL ERROR in Vercel function:', error);
+    console.error('Error in Vercel function:', error);
     return res.status(500).json({ error: 'Error processing your request.' });
   }
 }
