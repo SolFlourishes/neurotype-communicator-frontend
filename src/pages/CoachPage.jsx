@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axiosClient from '../lib/axiosClient.js';
+import axios from 'axios'; // Use standard axios
 import './CoachPage.css';
 
 function CoachPage() {
@@ -27,7 +27,7 @@ function CoachPage() {
     setError(null);
 
     try {
-      const response = await axiosClient.post('/api/chat', {
+      const response = await axios.post('/api/chat', { // Call local path
         history: history,
         message: userInput,
       });
