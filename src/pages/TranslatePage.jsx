@@ -7,14 +7,29 @@ import './TranslatePage.css';
 
 function TranslatePage() {
   const { mode } = useParams();
+
+  // New state for advanced mode
+  const [isAdvancedMode, setIsAdvancedMode] = useState(false);
+
+  // Beta style selectors
   const [senderStyle, setSenderStyle] = useState('let-ai-decide');
   const [receiverStyle, setReceiverStyle] = useState('indirect');
+  
+  // Advanced neurotype selectors
+  const [senderNeurotype, setSenderNeurotype] = useState('neurodivergent');
+  const [receiverNeurotype, setReceiverNeurotype] = useState('neurotypical');
+
+  // Form inputs
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
+
+  // API & UI state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
+  
+  // Feedback state
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
@@ -31,7 +46,6 @@ function TranslatePage() {
     let finalSenderStyle = senderStyle;
     const textForClassification = mode === 'draft' ? (context || text) : text;
 
-
     try {
       if (senderStyle === 'let-ai-decide') {
         if (!textForClassification) {
@@ -43,7 +57,12 @@ function TranslatePage() {
         finalSenderStyle = classificationResponse.data.style;
       }
 
-      const requestBody = { mode, text, context, interpretation, sender: finalSenderStyle, receiver: receiverStyle };
+      // In a future step, we will pass the advanced selectors here
+      const requestBody = { 
+        mode, text, context, interpretation, 
+        sender: finalSenderStyle, 
+        receiver: receiverStyle 
+      };
       const translateResponse = await axios.post('/api/translate', requestBody);
       
       const cleanupString = (str) => {
@@ -72,12 +91,8 @@ function TranslatePage() {
 
   const handleFeedbackSubmit = async () => {
     const feedbackData = {
-      responseRating,
-      responseComment,
-      explanationRating,
-      explanationComment,
-      mode,
-      version: version,
+      responseRating, responseComment, explanationRating,
+      explanationComment, mode, version,
     };
     try {
       await axios.post('/api/feedback', feedbackData);
@@ -149,6 +164,48 @@ function TranslatePage() {
           </div>
         </div>
       </div>
+
+      <div className="advanced-mode-toggle">
+        <label>
+          <input 
+            type="checkbox" 
+            checked={isAdvancedMode} 
+            onChange={() => setIsAdvancedMode(!isAdvancedMode)}
+          />
+          Show Advanced Options
+        </label>
+      </div>
+
+      {isAdvancedMode && (
+        <div className="advanced-options">
+          <div className="selector-group">
+            <label>My Neurotype (Advanced)</label>
+            <div className="options">
+              <label className={senderNeurotype === 'neurodivergent' ? 'selected' : ''}>
+                <input type="radio" name="sender-nt" value="neurodivergent" checked={senderNeurotype === 'neurodivergent'} onChange={(e) => setSenderNeurotype(e.target.value)} />
+                Neurodivergent
+              </label>
+              <label className={senderNeurotype === 'neurotypical' ? 'selected' : ''}>
+                <input type="radio" name="sender-nt" value="neurotypical" checked={senderNeurotype === 'neurotypical'} onChange={(e) => setSenderNeurotype(e.target.value)} />
+                Neurotypical
+              </label>
+            </div>
+          </div>
+          <div className="selector-group">
+            <label>Audience's Neurotype (Advanced)</label>
+            <div className="options">
+              <label className={receiverNeurotype === 'neurodivergent' ? 'selected' : ''}>
+                <input type="radio" name="receiver-nt" value="neurodivergent" checked={receiverNeurotype === 'neurodivergent'} onChange={(e) => setReceiverNeurotype(e.target.value)} />
+                Neurodivergent
+              </label>
+              <label className={receiverNeurotype === 'neurotypical' ? 'selected' : ''}>
+                <input type="radio" name="receiver-nt" value="neurotypical" checked={receiverNeurotype === 'neurotypical'} onChange={(e) => setReceiverNeurotype(e.target.value)} />
+                Neurotypical
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="four-box-grid">
         {currentBoxes.map((box, index) => (

@@ -39,7 +39,7 @@
 .options {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .options label {
@@ -63,7 +63,75 @@
   color: var(--text-primary);
 }
 
-/* --- NEW Four-Box Grid Layout --- */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  border: 1px solid var(--text-secondary);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+  line-height: 16px;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 250px;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  text-align: left;
+  border-radius: 6px;
+  padding: 1rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -125px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border: 1px solid var(--border);
+  font-style: normal;
+  font-weight: normal;
+}
+
+.tooltip-text strong {
+    color: var(--primary);
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.advanced-mode-toggle {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.advanced-mode-toggle label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.advanced-options {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
 .four-box-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -108,23 +176,93 @@
   padding: 0.5rem;
   border-radius: 4px;
   background-color: var(--background);
+  min-height: 168px; /* Match textarea min-height + padding */
 }
 
-/* --- (Rest of the CSS remains similar) --- */
 .button-group {
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-.button-group button { /* ... */ }
-.reset-button { /* ... */ }
-.loading-spinner, .error-message { /* ... */ }
-.response-container { /* This is now the feedback area */
+.button-group button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button[type="submit"],
+.button-group button:first-child {
+  background-color: var(--primary);
+  color: white;
+}
+
+button[type="submit"]:disabled,
+.button-group button:first-child:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  background-color: transparent;
+  border: 1px solid var(--border) !important;
+  color: var(--text-secondary);
+}
+
+.loading-spinner, .error-message {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.error-message {
+  color: #ff8080;
+}
+
+.response-container {
   margin-top: 3rem;
   border-top: 1px solid var(--border);
   padding-top: 2rem;
 }
-.feedback-container { /* ... */ }
-.submit-feedback-button { /* ... */ }
-.success-message { /* ... */ }
+
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  border-top: 1px dashed #555;
+  padding-top: 2rem;
+}
+
+.submit-feedback-button {
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--success-border);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--success-bg);
+  color: var(--success-text);
+}
+
+.success-message {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  background-color: var(--success-bg);
+  border: 1px solid var(--success-border);
+  color: var(--success-text);
+}
+
+.response-section {
+    /* This rule is now handled by .ai-output and .io-box */
+}
+
+.response-section * {
+    /* This is no longer needed with the more specific styles above */
+}
