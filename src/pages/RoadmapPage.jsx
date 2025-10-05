@@ -5,40 +5,29 @@ function RoadmapPage() {
   return (
     <div className="content-page">
       <h1>Application Roadmap</h1>
-      <p className="mission">We believe in transparency. This page outlines the current state of our application and our vision for the future, so our alpha testers know what to expect and how they can help us grow.</p>
+      <p className="mission">We believe in transparency. This page outlines the current state of our application and our vision for the future, so our testers know what to expect and how they can help us grow.</p>
 
       <div className="bg-blue-50 p-6 rounded-lg mt-8 border border-blue-200">
-          <h2>Current Phase: Alpha Version</h2>
-          <p className="mb-4">The version you are using now is an early, functional release. Its primary purpose is to test the core mechanics and gather essential user feedback.</p>
-          <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem'}}>
-              <div>
-                  <h3 className="font-bold text-lg mb-2">Strengths</h3>
-                  <ul className="list-disc list-inside pl-4 space-y-2">
-                      <li>Core translation and analysis features are live.</li>
-                      <li>The "intent-first" UI is in place.</li>
-                      <li>Feedback system is actively collecting data.</li>
-                  </ul>
-              </div>
-              <div>
-                  <h3 className="font-bold text-lg mb-2">Limitations (What to Expect)</h3>
-                  <ul className="list-disc list-inside pl-4 space-y-2">
-                      <li>The AI's responses are good, but can sometimes feel generic.</li>
-                      <li>The Coach Mode has a "short-term memory."</li>
-                      <li>No user accounts or personalization features yet.</li>
-                  </ul>
-              </div>
+          <h2>Current Phase: Beta (v2.1)</h2>
+          <p className="mb-4">The current version is focused on building a more intelligent and intuitive user experience with the introduction of the "Style, Not Label" approach, a full visual redesign, and advanced selectors.</p>
+          <div>
+            <h3 className="font-bold text-lg mb-2">Key Features Implemented</h3>
+            <ul className="list-disc list-inside pl-4 space-y-2">
+              <li>"Let the AI Decide" feature to automatically analyze a user's writing style.</li>
+              <li>New "Four-Box" layout to visually represent the communication loop.</li>
+              <li>"Advanced Mode" with functional selectors for Neurotype and Generation.</li>
+            </ul>
           </div>
       </div>
 
       <div className="bg-green-50 p-6 rounded-lg mt-8 border border-green-200">
-          <h2>Next Phase: Beta Version</h2>
-          <p className="mb-4">The Beta version will be a major leap forward in intelligence and accuracy, powered by the feedback and research gathered during the Alpha phase.</p>
+          <h2>Next Phase: Beta (v2.2)</h2>
+          <p className="mb-4">The next major step is to build the "Golden Feedback Loop," which is the cornerstone of our strategy to create a world-class AI brain.</p>
           <div>
               <h3 className="font-bold text-lg mb-2">Key Enhancements</h3>
               <ul className="list-disc list-inside pl-4 space-y-2">
-                  <li><strong>A Smarter AI Brain:</strong> Implementing a Retrieval Augmented Generation (RAG) system using scholarly articles and user-rated examples.</li>
-                  <li><strong>Personalization:</strong> Introducing secure user accounts and "Key Contacts" profiles.</li>
-                  <li><strong>Deeper Nuance:</strong> Adding granular neurotype, cross-cultural, and <strong>generational/age-aware</strong> selections to provide more specific and empathetic guidance.</li>
+                  <li><strong>Editable AI Responses:</strong> Allow users to directly edit the AI-generated text in the "Four-Box" model.</li>
+                  <li><strong>"Save My Edit" System:</strong> Create a system to save these user-perfected translations, providing the highest quality training data for future AI improvements.</li>
               </ul>
           </div>
       </div>
