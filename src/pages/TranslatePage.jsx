@@ -52,7 +52,7 @@ function TranslatePage() {
         receiver: receiverStyle 
       };
       const translateResponse = await axios.post('/api/translate', requestBody);
-      
+
       const cleanupString = (str) => {
         if (!str) return '';
         return str.replace(/['`]{3}html/g, '').replace(/['`]{3}/g, '').trim();
@@ -89,7 +89,7 @@ function TranslatePage() {
       console.error('Failed to submit feedback', err);
     }
   };
-  
+
   const isDraftMode = mode === 'draft';
 
   const boxes = {
@@ -119,7 +119,7 @@ function TranslatePage() {
           : "Please fill out both boxes to help the AI understand the gap between the sender's message and your interpretation."
         }
       </p>
-      
+
       <div className="selectors-container">
         <div className="selector-group">
           <label>My Communication Style tends to be:
@@ -209,7 +209,7 @@ function TranslatePage() {
           </div>
         </div>
       )}
-      
+
       <div className="four-box-grid">
         {currentBoxes.map((box) => (
           <div key={box.id} className={`io-box ${box.isUserInput ? 'user-input' : ''}`}>
@@ -239,4 +239,11 @@ function TranslatePage() {
               <button onClick={handleFeedbackSubmit} className="submit-feedback-button">Submit Feedback</button>
             </div>
           )}
-          {feedbackSuccess && <div
+          {feedbackSuccess && <div className="success-message">{feedbackSuccess}</div>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default TranslatePage;
