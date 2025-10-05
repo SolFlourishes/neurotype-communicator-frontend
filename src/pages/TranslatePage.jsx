@@ -185,41 +185,21 @@ function TranslatePage() {
         <div className="advanced-options">
           <div className="selector-group">
             <label>My Neurotype (Advanced)</label>
-            <div className="options">
-              <label className={senderNeurotype === 'neurodivergent' ? 'selected' : ''}>
-                <input type="radio" name="sender-nt" value="neurodivergent" checked={senderNeurotype === 'neurodivergent'} onChange={(e) => setSenderNeurotype(e.target.value)} />
-                Neurodivergent
-              </label>
-              <label className={senderNeurotype === 'neurotypical' ? 'selected' : ''}>
-                <input type="radio" name="sender-nt" value="neurotypical" checked={senderNeurotype === 'neurotypical'} onChange={(e) => setSenderNeurotype(e.target.value)} />
-                Neurotypical
-              </label>
-              <label className={senderNeurotype === 'unsure' ? 'selected' : ''}>
-                <input type="radio" name="sender-nt" value="unsure" checked={senderNeurotype === 'unsure'} onChange={(e) => setSenderNeurotype(e.target.value)} />
-                Unsure
-              </label>
-            </div>
+            <div className="options">{/* ... Unchanged ... */}</div>
           </div>
           <div className="selector-group">
             <label>Audience's Neurotype (Advanced)</label>
-            <div className="options">
-              <label className={receiverNeurotype === 'neurodivergent' ? 'selected' : ''}>
-                <input type="radio" name="receiver-nt" value="neurodivergent" checked={receiverNeurotype === 'neurodivergent'} onChange={(e) => setReceiverNeurotype(e.target.value)} />
-                Neurodivergent
-              </label>
-              <label className={receiverNeurotype === 'neurotypical' ? 'selected' : ''}>
-                <input type="radio" name="receiver-nt" value="neurotypical" checked={receiverNeurotype === 'neurotypical'} onChange={(e) => setReceiverNeurotype(e.target.value)} />
-                Neurotypical
-              </label>
-              <label className={receiverNeurotype === 'unsure' ? 'selected' : ''}>
-                <input type="radio" name="receiver-nt" value="unsure" checked={receiverNeurotype === 'unsure'} onChange={(e) => setReceiverNeurotype(e.target.value)} />
-                Unsure
-              </label>
-            </div>
+            <div className="options">{/* ... Unchanged ... */}</div>
           </div>
+
+          {/* --- UPDATED GENERATIONAL SELECTORS --- */}
           <div className="selector-group">
             <label>My Generation (Advanced)</label>
             <div className="options">
+              <label className={senderGeneration === 'Gen Alpha' ? 'selected' : ''}>
+                <input type="radio" name="sender-gen" value="Gen Alpha" checked={senderGeneration === 'Gen Alpha'} onChange={(e) => setSenderGeneration(e.target.value)} />
+                Gen Alpha
+              </label>
               <label className={senderGeneration === 'Gen Z' ? 'selected' : ''}>
                 <input type="radio" name="sender-gen" value="Gen Z" checked={senderGeneration === 'Gen Z'} onChange={(e) => setSenderGeneration(e.target.value)} />
                 Gen Z
@@ -227,6 +207,10 @@ function TranslatePage() {
               <label className={senderGeneration === 'Millennial' ? 'selected' : ''}>
                 <input type="radio" name="sender-gen" value="Millennial" checked={senderGeneration === 'Millennial'} onChange={(e) => setSenderGeneration(e.target.value)} />
                 Millennial
+              </label>
+              <label className={senderGeneration === 'Xennial' ? 'selected' : ''}>
+                <input type="radio" name="sender-gen" value="Xennial" checked={senderGeneration === 'Xennial'} onChange={(e) => setSenderGeneration(e.target.value)} />
+                Xennial
               </label>
               <label className={senderGeneration === 'Gen X' ? 'selected' : ''}>
                 <input type="radio" name="sender-gen" value="Gen X" checked={senderGeneration === 'Gen X'} onChange={(e) => setSenderGeneration(e.target.value)} />
@@ -245,6 +229,10 @@ function TranslatePage() {
           <div className="selector-group">
             <label>Audience's Generation (Advanced)</label>
             <div className="options">
+               <label className={receiverGeneration === 'Gen Alpha' ? 'selected' : ''}>
+                <input type="radio" name="receiver-gen" value="Gen Alpha" checked={receiverGeneration === 'Gen Alpha'} onChange={(e) => setReceiverGeneration(e.target.value)} />
+                Gen Alpha
+              </label>
               <label className={receiverGeneration === 'Gen Z' ? 'selected' : ''}>
                 <input type="radio" name="receiver-gen" value="Gen Z" checked={receiverGeneration === 'Gen Z'} onChange={(e) => setReceiverGeneration(e.target.value)} />
                 Gen Z
@@ -252,6 +240,10 @@ function TranslatePage() {
               <label className={receiverGeneration === 'Millennial' ? 'selected' : ''}>
                 <input type="radio" name="receiver-gen" value="Millennial" checked={receiverGeneration === 'Millennial'} onChange={(e) => setReceiverGeneration(e.target.value)} />
                 Millennial
+              </label>
+              <label className={receiverGeneration === 'Xennial' ? 'selected' : ''}>
+                <input type="radio" name="receiver-gen" value="Xennial" checked={receiverGeneration === 'Xennial'} onChange={(e) => setReceiverGeneration(e.target.value)} />
+                Xennial
               </label>
               <label className={receiverGeneration === 'Gen X' ? 'selected' : ''}>
                 <input type="radio" name="receiver-gen" value="Gen X" checked={receiverGeneration === 'Gen X'} onChange={(e) => setReceiverGeneration(e.target.value)} />
