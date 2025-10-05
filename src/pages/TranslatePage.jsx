@@ -7,7 +7,6 @@ import './TranslatePage.css';
 
 function TranslatePage() {
   const { mode } = useParams();
-
   const [senderStyle, setSenderStyle] = useState('let-ai-decide');
   const [receiverStyle, setReceiverStyle] = useState('indirect');
   const [text, setText] = useState('');
@@ -30,10 +29,17 @@ function TranslatePage() {
     setFeedbackSuccess(null);
 
     let finalSenderStyle = senderStyle;
+    const textForClassification = mode === 'draft' ? (context || text) : text;
+
 
     try {
       if (senderStyle === 'let-ai-decide') {
-        const classificationResponse = await axios.post('/api/classify-style', { text });
+        if (!textForClassification) {
+          setError("Please provide some text for the AI to analyze your style.");
+          setLoading(false);
+          return;
+        }
+        const classificationResponse = await axios.post('/api/classify-style', { text: textForClassification });
         finalSenderStyle = classificationResponse.data.style;
       }
 
@@ -60,12 +66,8 @@ function TranslatePage() {
   };
 
   const handleReset = () => {
-    setText('');
-    setContext('');
-    setInterpretation('');
-    setError(null);
-    setAiResponse(null);
-    setFeedbackSuccess(null);
+    setText(''); setContext(''); setInterpretation(''); setError(null);
+    setAiResponse(null); setFeedbackSuccess(null);
   };
 
   const handleFeedbackSubmit = async () => {
@@ -87,85 +89,86 @@ function TranslatePage() {
   
   const isDraftMode = mode === 'draft';
 
+  const boxes = {
+    draft: [
+      { title: "What I Mean (Intent)", content: <textarea value={context} onChange={(e) => setContext(e.target.value)} placeholder="What is the goal of your message?" required />, isUserInput: true },
+      { title: "What I Wrote (Draft)", content: <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="What are your key points or raw thoughts?" required />, isUserInput: true },
+      { title: "How They Might Hear It (Explanation)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
+      { title: "The Translation (Suggested Draft)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
+    ],
+    analyze: [
+      { title: "What They Wrote (Received Message)", content: <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the message you received." required />, isUserInput: true },
+      { title: "How I Heard It (My Interpretation)", content: <textarea value={interpretation} onChange={(e) => setInterpretation(e.target.value)} placeholder="How did this message make you feel or what do you think it means?" required />, isUserInput: true },
+      { title: "What They Likely Meant (Explanation)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
+      { title: "The Translation (Suggested Response)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
+    ]
+  };
+  const currentBoxes = boxes[mode] || [];
+
   return (
     <div className="translate-container">
       <Link to="/" className="back-link">‹ Back to Modes</Link>
       <h1>{isDraftMode ? 'Draft a Message' : 'Analyze a Message'}</h1>
-      <form onSubmit={handleSubmit} className="translate-form">
-        <div className="neurotype-selectors">
-          <div className="selector-group">
-            <label>My Communication Style tends to be:
-              <span className="tooltip-container"> (i)
-                <span className="tooltip-text">
-                  <strong>Direct & Literal:</strong> You tend to say what you mean, focus on facts, and prefer clear language.<br/><br/>
-                  <strong>Indirect & Nuanced:</strong> You often use context, social rapport, and subtext to convey meaning.
-                </span>
+      
+      <div className="selectors-container">
+        <div className="selector-group">
+          <label>My Communication Style tends to be:
+            <span className="tooltip-container"> (i)
+              <span className="tooltip-text">
+                <strong>Direct & Literal:</strong> You tend to say what you mean, focus on facts, and prefer clear language.<br/><br/>
+                <strong>Indirect & Nuanced:</strong> You often use context, social rapport, and subtext to convey meaning.
               </span>
+            </span>
+          </label>
+          <div className="options">
+            <label className={senderStyle === 'direct' ? 'selected' : ''}>
+              <input type="radio" name="sender" value="direct" checked={senderStyle === 'direct'} onChange={(e) => setSenderStyle(e.target.value)} />
+              Direct & Literal
             </label>
-            <div className="options">
-              <label className={senderStyle === 'direct' ? 'selected' : ''}>
-                <input type="radio" name="sender" value="direct" checked={senderStyle === 'direct'} onChange={(e) => setSenderStyle(e.target.value)} />
-                Direct & Literal
-              </label>
-              <label className={senderStyle === 'indirect' ? 'selected' : ''}>
-                <input type="radio" name="sender" value="indirect" checked={senderStyle === 'indirect'} onChange={(e) => setSenderStyle(e.target.value)} />
-                Indirect & Nuanced
-              </label>
-               <label className={senderStyle === 'let-ai-decide' ? 'selected' : ''}>
-                <input type="radio" name="sender" value="let-ai-decide" checked={senderStyle === 'let-ai-decide'} onChange={(e) => setSenderStyle(e.target.value)} />
-                Let the AI Decide
-              </label>
-            </div>
-          </div>
-          <div className="selector-group">
-            <label>My Audience's Style tends to be:</label>
-            <div className="options">
-              <label className={receiverStyle === 'direct' ? 'selected' : ''}>
-                <input type="radio" name="receiver" value="direct" checked={receiverStyle === 'direct'} onChange={(e) => setReceiverStyle(e.target.value)} />
-                Direct & Literal
-              </label>
-              <label className={receiverStyle === 'indirect' ? 'selected' : ''}>
-                <input type="radio" name="receiver" value="indirect" checked={receiverStyle === 'indirect'} onChange={(e) => setReceiverStyle(e.target.value)} />
-                Indirect & Nuanced
-              </label>
-            </div>
+            <label className={senderStyle === 'indirect' ? 'selected' : ''}>
+              <input type="radio" name="sender" value="indirect" checked={senderStyle === 'indirect'} onChange={(e) => setSenderStyle(e.target.value)} />
+              Indirect & Nuanced
+            </label>
+             <label className={senderStyle === 'let-ai-decide' ? 'selected' : ''}>
+              <input type="radio" name="sender" value="let-ai-decide" checked={senderStyle === 'let-ai-decide'} onChange={(e) => setSenderStyle(e.target.value)} />
+              Let the AI Decide
+            </label>
           </div>
         </div>
+        <div className="selector-group">
+          <label>My Audience's Style tends to be:</label>
+          <div className="options">
+            <label className={receiverStyle === 'direct' ? 'selected' : ''}>
+              <input type="radio" name="receiver" value="direct" checked={receiverStyle === 'direct'} onChange={(e) => setReceiverStyle(e.target.value)} />
+              Direct & Literal
+            </label>
+            <label className={receiverStyle === 'indirect' ? 'selected' : ''}>
+              <input type="radio" name="receiver" value="indirect" checked={receiverStyle === 'indirect'} onChange={(e) => setReceiverStyle(e.target.value)} />
+              Indirect & Nuanced
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <div className="four-box-grid">
+        {currentBoxes.map((box, index) => (
+          <div key={index} className={`io-box ${box.isUserInput ? 'user-input' : ''}`}>
+            <h3>{box.title}</h3>
+            {box.content}
+          </div>
+        ))}
+      </div>
 
-        {isDraftMode ? (
-          <>
-            <label htmlFor="context">Context / Goal</label>
-            <textarea id="context" value={context} onChange={(e) => setContext(e.target.value)} placeholder="e.g., I need to ask my boss for a deadline extension." required />
-            <label htmlFor="text">Your Draft or Key Points</label>
-            <textarea id="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="e.g., need more time on report" required />
-          </>
-        ) : (
-          <>
-            <label htmlFor="text">Message You Received</label>
-            <textarea id="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="e.g., Hey, can we talk for a minute?" required />
-            <label htmlFor="interpretation">Your Interpretation</label>
-            <textarea id="interpretation" value={interpretation} onChange={(e) => setInterpretation(e.target.value)} placeholder="e.g., I think they are mad at me for the last project." required />
-          </>
-        )}
-        <div className="button-group">
-          <button type="submit" disabled={loading}>{loading ? 'Thinking...' : 'Translate'}</button>
-          <button type="button" onClick={handleReset} className="reset-button">Reset</button>
-        </div>
-      </form>
+      <div className="button-group">
+        <button onClick={handleSubmit} disabled={loading}>{loading ? 'Thinking...' : 'Translate'}</button>
+        <button type="button" onClick={handleReset} className="reset-button">Reset</button>
+      </div>
 
       {loading && <div className="loading-spinner">Loading...</div>}
       {error && <div className="error-message">{error}</div>}
 
       {aiResponse && (
         <div className="response-container">
-          <div className="response-section">
-            <h2>Suggested Response</h2>
-            <div dangerouslySetInnerHTML={{ __html: aiResponse.response }} />
-          </div>
-          <div className="response-section">
-            <h2>Explanation</h2>
-            <div dangerouslySetInnerHTML={{ __html: aiResponse.explanation }} />
-          </div>
           {!feedbackSuccess && (
             <div className="feedback-container">
               <Feedback title="Rate the 'Suggested Response'" onRatingChange={setResponseRating} onCommentChange={setResponseComment} />
