@@ -86,3 +86,10 @@
 .copyright {
   width: 100%;
 }
+
+.version-info {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  margin-top: 0.5rem;
+}
