@@ -51,6 +51,14 @@ function TranslatePage() {
         sender: finalSenderStyle, 
         receiver: receiverStyle 
       };
+
+      // --- NEW LOGIC FOR ADVANCED MODE ---
+      if (isAdvancedMode) {
+        requestBody.senderNeurotype = senderNeurotype;
+        requestBody.receiverNeurotype = receiverNeurotype;
+      }
+      // --- END NEW LOGIC ---
+
       const translateResponse = await axios.post('/api/translate', requestBody);
 
       const cleanupString = (str) => {
