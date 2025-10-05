@@ -1,12 +1,21 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
+  // --- TEMPORARY DEBUGGING LOGS ---
+  console.log('--- Checking Gemini API Key in /api/translate ---');
+  if (process.env.GEMINI_API_KEY) {
+    const key = process.env.GEMINI_API_KEY;
+    console.log(`GEMINI_API_KEY: Exists. Starts with "${key.substring(0, 4)}" and ends with "${key.substring(key.length - 4)}"`);
+  } else {
+    console.log('GEMINI_API_KEY: IS MISSING OR UNDEFINED!');
+  }
+  // --- END DEBUGGING LOGS ---
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    // Destructure the new generational fields
     const { mode, text, context, interpretation, sender, receiver, senderNeurotype, receiverNeurotype, senderGeneration, receiverGeneration } = req.body;
 
     const personaPrompt = `Your tone should be that of a helpful, direct, and supportive coach...`; // Full persona prompt
@@ -27,7 +36,6 @@ export default async function handler(req, res) {
     if (receiverNeurotype && receiverNeurotype !== 'unsure') {
       advancedContext += ` The audience explicitly identifies as ${receiverNeurotype}.`;
     }
-    // Conditionally add generational context
     if (senderGeneration && senderGeneration !== 'unsure') {
       advancedContext += ` The user is from the ${senderGeneration} generation.`;
     }
@@ -41,12 +49,12 @@ export default async function handler(req, res) {
         fullPrompt += `
 CONTEXT: "${context}"
 DRAFT: "${text}"
-Your Task: First, provide the rewritten message using HTML for formatting (like <p> and <h3> tags). Then, on a new line, provide the unique separator '|||'. Finally, on a new line, provide the explanation for your changes, also using HTML formatting.`;
+Your Task: First, provide the rewritten message...`;
     } else if (mode === 'analyze') {
         fullPrompt += `
 MESSAGE: "${text}"
 USER'S INTERPRETATION: "${interpretation}"
-Your Task: First, provide a multi-part analysis and suggested response as a single HTML string. Then, on a new line, provide the unique separator '|||'. Finally, on a new line, provide the explanation for your work, also using HTML formatting.`;
+Your Task: First, provide a multi-part analysis...`;
     }
 
     const model = genAI.getGenerativeModel({ model: 'gemini-pro-latest' });
