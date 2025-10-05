@@ -13,6 +13,8 @@ function TranslatePage() {
   const [receiverStyle, setReceiverStyle] = useState('indirect');
   const [senderNeurotype, setSenderNeurotype] = useState('unsure');
   const [receiverNeurotype, setReceiverNeurotype] = useState('unsure');
+  const [senderGeneration, setSenderGeneration] = useState('unsure');
+  const [receiverGeneration, setReceiverGeneration] = useState('unsure');
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
@@ -52,15 +54,15 @@ function TranslatePage() {
         receiver: receiverStyle 
       };
 
-      // --- NEW LOGIC FOR ADVANCED MODE ---
       if (isAdvancedMode) {
         requestBody.senderNeurotype = senderNeurotype;
         requestBody.receiverNeurotype = receiverNeurotype;
+        requestBody.senderGeneration = senderGeneration;
+        requestBody.receiverGeneration = receiverGeneration;
       }
-      // --- END NEW LOGIC ---
 
       const translateResponse = await axios.post('/api/translate', requestBody);
-
+      
       const cleanupString = (str) => {
         if (!str) return '';
         return str.replace(/['`]{3}html/g, '').replace(/['`]{3}/g, '').trim();
@@ -97,7 +99,7 @@ function TranslatePage() {
       console.error('Failed to submit feedback', err);
     }
   };
-
+  
   const isDraftMode = mode === 'draft';
 
   const boxes = {
@@ -127,7 +129,7 @@ function TranslatePage() {
           : "Please fill out both boxes to help the AI understand the gap between the sender's message and your interpretation."
         }
       </p>
-
+      
       <div className="selectors-container">
         <div className="selector-group">
           <label>My Communication Style tends to be:
@@ -215,43 +217,45 @@ function TranslatePage() {
               </label>
             </div>
           </div>
-        </div>
-      )}
-
-      <div className="four-box-grid">
-        {currentBoxes.map((box) => (
-          <div key={box.id} className={`io-box ${box.isUserInput ? 'user-input' : ''}`}>
-            <h3 id={box.id}>
-              {box.title}
-              {box.required && <span className="required-asterisk"> *</span>}
-            </h3>
-            {box.content}
-          </div>
-        ))}
-      </div>
-
-      <div className="button-group">
-        <button onClick={handleSubmit} disabled={loading}>{loading ? 'Thinking...' : 'Translate'}</button>
-        <button type="button" onClick={handleReset} className="reset-button">Reset</button>
-      </div>
-
-      {loading && <div className="loading-spinner">Loading...</div>}
-      {error && <div className="error-message">{error}</div>}
-
-      {aiResponse && (
-        <div className="response-container">
-          {!feedbackSuccess && (
-            <div className="feedback-container">
-              <Feedback title="Rate the 'Suggested Response'" onRatingChange={setResponseRating} onCommentChange={setResponseComment} />
-              <Feedback title="Rate the 'Explanation'" onRatingChange={setExplanationRating} onCommentChange={setExplanationComment} />
-              <button onClick={handleFeedbackSubmit} className="submit-feedback-button">Submit Feedback</button>
+          <div className="selector-group">
+            <label>My Generation (Advanced)</label>
+            <div className="options">
+              <label className={senderGeneration === 'Gen Z' ? 'selected' : ''}>
+                <input type="radio" name="sender-gen" value="Gen Z" checked={senderGeneration === 'Gen Z'} onChange={(e) => setSenderGeneration(e.target.value)} />
+                Gen Z
+              </label>
+              <label className={senderGeneration === 'Millennial' ? 'selected' : ''}>
+                <input type="radio" name="sender-gen" value="Millennial" checked={senderGeneration === 'Millennial'} onChange={(e) => setSenderGeneration(e.target.value)} />
+                Millennial
+              </label>
+              <label className={senderGeneration === 'Gen X' ? 'selected' : ''}>
+                <input type="radio" name="sender-gen" value="Gen X" checked={senderGeneration === 'Gen X'} onChange={(e) => setSenderGeneration(e.target.value)} />
+                Gen X
+              </label>
+              <label className={senderGeneration === 'Boomer' ? 'selected' : ''}>
+                <input type="radio" name="sender-gen" value="Boomer" checked={senderGeneration === 'Boomer'} onChange={(e) => setSenderGeneration(e.target.value)} />
+                Boomer
+              </label>
+               <label className={senderGeneration === 'unsure' ? 'selected' : ''}>
+                <input type="radio" name="sender-gen" value="unsure" checked={senderGeneration === 'unsure'} onChange={(e) => setSenderGeneration(e.target.value)} />
+                Unsure
+              </label>
             </div>
-          )}
-          {feedbackSuccess && <div className="success-message">{feedbackSuccess}</div>}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default TranslatePage;
+          </div>
+          <div className="selector-group">
+            <label>Audience's Generation (Advanced)</label>
+            <div className="options">
+              <label className={receiverGeneration === 'Gen Z' ? 'selected' : ''}>
+                <input type="radio" name="receiver-gen" value="Gen Z" checked={receiverGeneration === 'Gen Z'} onChange={(e) => setReceiverGeneration(e.target.value)} />
+                Gen Z
+              </label>
+              <label className={receiverGeneration === 'Millennial' ? 'selected' : ''}>
+                <input type="radio" name="receiver-gen" value="Millennial" checked={receiverGeneration === 'Millennial'} onChange={(e) => setReceiverGeneration(e.target.value)} />
+                Millennial
+              </label>
+              <label className={receiverGeneration === 'Gen X' ? 'selected' : ''}>
+                <input type="radio" name="receiver-gen" value="Gen X" checked={receiverGeneration === 'Gen X'} onChange={(e) => setReceiverGeneration(e.target.value)} />
+                Gen X
+              </label>
+               <label className={receiverGeneration === 'Boomer' ? 'selected' : ''}>
+                <input type="radio" name="receiver-gen"
