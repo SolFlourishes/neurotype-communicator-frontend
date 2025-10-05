@@ -8,28 +8,17 @@ import './TranslatePage.css';
 function TranslatePage() {
   const { mode } = useParams();
 
-  // New state for advanced mode
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
-
-  // Beta style selectors
   const [senderStyle, setSenderStyle] = useState('let-ai-decide');
   const [receiverStyle, setReceiverStyle] = useState('indirect');
-  
-  // Advanced neurotype selectors
   const [senderNeurotype, setSenderNeurotype] = useState('neurodivergent');
   const [receiverNeurotype, setReceiverNeurotype] = useState('neurotypical');
-
-  // Form inputs
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
-
-  // API & UI state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
-  
-  // Feedback state
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
@@ -57,12 +46,7 @@ function TranslatePage() {
         finalSenderStyle = classificationResponse.data.style;
       }
 
-      // In a future step, we will pass the advanced selectors here
-      const requestBody = { 
-        mode, text, context, interpretation, 
-        sender: finalSenderStyle, 
-        receiver: receiverStyle 
-      };
+      const requestBody = { mode, text, context, interpretation, sender: finalSenderStyle, receiver: receiverStyle };
       const translateResponse = await axios.post('/api/translate', requestBody);
       
       const cleanupString = (str) => {
@@ -106,16 +90,16 @@ function TranslatePage() {
 
   const boxes = {
     draft: [
-      { title: "What I Mean (Intent)", content: <textarea value={context} onChange={(e) => setContext(e.target.value)} placeholder="What is the goal of your message?" required />, isUserInput: true },
-      { title: "What I Wrote (Draft)", content: <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="What are your key points or raw thoughts?" required />, isUserInput: true },
-      { title: "How They Might Hear It (Explanation)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
-      { title: "The Translation (Suggested Draft)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
+      { id: 'intent-label', title: "What I Mean (Intent)", content: <textarea id="intent-input" aria-labelledby="intent-label" value={context} onChange={(e) => setContext(e.target.value)} placeholder="What is the goal of your message?" required />, isUserInput: true },
+      { id: 'draft-label', title: "What I Wrote (Draft)", content: <textarea id="draft-input" aria-labelledby="draft-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="What are your key points or raw thoughts?" required />, isUserInput: true },
+      { id: 'explanation-label', title: "How They Might Hear It (Explanation)", content: <div className="ai-output" role="region" aria-labelledby="explanation-label" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
+      { id: 'translation-label', title: "The Translation (Suggested Draft)", content: <div className="ai-output" role="region" aria-labelledby="translation-label" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
     ],
     analyze: [
-      { title: "What They Wrote (Received Message)", content: <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the message you received." required />, isUserInput: true },
-      { title: "How I Heard It (My Interpretation)", content: <textarea value={interpretation} onChange={(e) => setInterpretation(e.target.value)} placeholder="How did this message make you feel or what do you think it means?" required />, isUserInput: true },
-      { title: "What They Likely Meant (Explanation)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
-      { title: "The Translation (Suggested Response)", content: <div className="ai-output" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
+      { id: 'received-label', title: "What They Wrote (Received Message)", content: <textarea id="received-input" aria-labelledby="received-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the message you received." required />, isUserInput: true },
+      { id: 'interpretation-label', title: "How I Heard It (My Interpretation)", content: <textarea id="interpretation-input" aria-labelledby="interpretation-label" value={interpretation} onChange={(e) => setInterpretation(e.target.value)} placeholder="How did this message make you feel or what do you think it means?" required />, isUserInput: true },
+      { id: 'explanation-label-analyze', title: "What They Likely Meant (Explanation)", content: <div className="ai-output" role="region" aria-labelledby="explanation-label-analyze" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
+      { id: 'translation-label-analyze', title: "The Translation (Suggested Response)", content: <div className="ai-output" role="region" aria-labelledby="translation-label-analyze" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
     ]
   };
   const currentBoxes = boxes[mode] || [];
@@ -208,9 +192,9 @@ function TranslatePage() {
       )}
       
       <div className="four-box-grid">
-        {currentBoxes.map((box, index) => (
-          <div key={index} className={`io-box ${box.isUserInput ? 'user-input' : ''}`}>
-            <h3>{box.title}</h3>
+        {currentBoxes.map((box) => (
+          <div key={box.id} className={`io-box ${box.isUserInput ? 'user-input' : ''}`}>
+            <h3 id={box.id}>{box.title}</h3>
             {box.content}
           </div>
         ))}
