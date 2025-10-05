@@ -6,10 +6,10 @@ export default async function handler(req, res) {
   }
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    // Destructure the new advanced fields from the request body
-    const { mode, text, context, interpretation, sender, receiver, senderNeurotype, receiverNeurotype } = req.body;
+    // Destructure the new generational fields
+    const { mode, text, context, interpretation, sender, receiver, senderNeurotype, receiverNeurotype, senderGeneration, receiverGeneration } = req.body;
 
-    const personaPrompt = `Your tone should be that of a helpful, direct, and supportive coach. You are truthful but not harsh. Avoid platitudes, overly flowery language, and excessive praise. The primary goal is to empower the user by explaining the 'why' behind communication differences, helping them build skills so they become less dependent on this tool over time.`;
+    const personaPrompt = `Your tone should be that of a helpful, direct, and supportive coach...`; // Full persona prompt
 
     let promptCore = '';
     if (mode === 'draft') {
@@ -20,7 +20,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid mode specified.' });
     }
 
-    // Conditionally add advanced context to the prompt
     let advancedContext = '';
     if (senderNeurotype && senderNeurotype !== 'unsure') {
       advancedContext += ` The user explicitly identifies as ${senderNeurotype}.`;
@@ -28,8 +27,14 @@ export default async function handler(req, res) {
     if (receiverNeurotype && receiverNeurotype !== 'unsure') {
       advancedContext += ` The audience explicitly identifies as ${receiverNeurotype}.`;
     }
+    // Conditionally add generational context
+    if (senderGeneration && senderGeneration !== 'unsure') {
+      advancedContext += ` The user is from the ${senderGeneration} generation.`;
+    }
+    if (receiverGeneration && receiverGeneration !== 'unsure') {
+      advancedContext += ` The audience is from the ${receiverGeneration} generation.`;
+    }
 
-    // Assemble the final prompt
     let fullPrompt = `${personaPrompt} ${promptCore}${advancedContext}`;
 
     if (mode === 'draft') {
