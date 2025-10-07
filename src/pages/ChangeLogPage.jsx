@@ -12,6 +12,7 @@ function ChangeLogPage() {
           <li>Added an "Advanced Mode" toggle to reveal more granular communication style selectors.</li>
           <li>Implemented and connected selectors for Neurotype and Generation in Advanced Mode.</li>
           <li>Added instructional text and info-icon tooltips to guide users.</li>
+          <li>Added a persistent "General Feedback" button on all pages.</li>
         </ul>
       </div>
       <div className="mt-6" style={{marginTop: '2rem'}}>

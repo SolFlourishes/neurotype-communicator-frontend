@@ -3,7 +3,7 @@ const axios = require('axios');
 // --- 1. CONFIGURE YOUR TEST HERE ---
 
 // Paste the URL of your Vercel Beta Preview deployment
-const VERCEL_BETA_URL = "https://neurotype-communicator-fr-git-478038-sol-roberts-liebs-projects.vercel.app/"; 
+const VERCEL_BETA_URL = "https://neurotype-communicator-frontend-j0xhci572.vercel.app/"; 
 
 // Define the single input you want to test
 const testInput = {
