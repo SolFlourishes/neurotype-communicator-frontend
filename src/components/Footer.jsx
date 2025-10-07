@@ -5,6 +5,8 @@ import { track } from '@vercel/analytics/react';
 import { version } from '../../package.json' with { type: 'json' };
 import './Footer.css';
 
+const { version } = pkg;
+
 function Footer() {
   const currentYear = new Date().getFullYear();
   const [email, setEmail] = useState('');

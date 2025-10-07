@@ -5,6 +5,8 @@ import Feedback from '../components/Feedback.jsx';
 import { version } from '../../package.json' with { type: 'json' };
 import './TranslatePage.css';
 
+const { version } = pkg;
+
 function TranslatePage() {
   const { mode } = useParams();
 
