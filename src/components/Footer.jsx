@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { track } from '@vercel/analytics/react';
-import { version } from '../../package.json';
+import { version } from '../../package.json' with { type: 'json' };
 import './Footer.css';
 
 function Footer() {

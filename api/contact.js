@@ -1,6 +1,6 @@
 import db from '../src/lib/firebaseAdmin.js';
 import nodemailer from 'nodemailer';
-import { version } from '../package.json';
+import { version } from '../package.json' with { type: 'json' };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
