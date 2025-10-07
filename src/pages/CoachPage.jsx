@@ -47,7 +47,8 @@ function CoachPage() {
     <div className="coach-container">
       <Link to="/" className="back-link">‹ Back to Modes</Link>
       <h1>AI Coach</h1>
-      <p>Brainstorm ideas and build your confidence for a tough conversation.</p>
+      {/* --- THIS IS THE UPDATED TEXT --- */}
+      <p>Welcome to your personal communication coach. Let's work together to craft a message that is clear, confident, and true to your style.</p>
       
       <div className="chat-window">
         {history.map((turn, index) => (

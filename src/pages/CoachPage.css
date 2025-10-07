@@ -1,3 +1,5 @@
+/* --- UPDATED CoachPage.css --- */
+
 .coach-container {
   width: 100%;
   max-width: 800px;
@@ -5,7 +7,7 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  height: 85vh; /* Take up most of the viewport height */
+  height: 70vh; /* CHANGED: Reduced from 85vh to make the component smaller */
 }
 
 .chat-window {
