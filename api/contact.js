@@ -11,11 +11,20 @@ export default async function handler(req, res) {
 
   const { name, email, subject, message } = req.body;
   
+  // --- CONFIGURATION CHECK ---
+  // The transporter object is correct, but the values it receives from
+  // process.env must match your Brevo account exactly.
   const transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
     port: 587,
+    secure: false, 
     auth: {
+      // Vercel Environment Variable: BREVO_USER
+      //      Value must be: Your Brevo account's login email address.
       user: process.env.BREVO_USER,
+      
+      // Vercel Environment Variable: BREVO_API_KEY
+      //      Value must be: The full Brevo v3 API Key you generated.
       pass: process.env.BREVO_API_KEY,
     },
   });
