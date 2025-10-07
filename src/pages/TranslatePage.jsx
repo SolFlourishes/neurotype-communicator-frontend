@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Feedback from '../components/Feedback.jsx';
-
-import { version } from '../../package.json' with { type: 'json' };
+// THIS LINE WAS MISSING. IT HAS BEEN RESTORED.
+import pkg from '../../package.json' with { type: 'json' }; 
 import './TranslatePage.css';
 
-const { version: appVersion } = pkg;
+// This line needs `pkg` from the import above to work correctly.
+const { version } = pkg;
 
 function TranslatePage() {
   const { mode } = useParams();
@@ -116,14 +117,14 @@ function TranslatePage() {
 
   const boxes = {
     draft: [
-      { id: 'intent-label', title: "What I Mean (Intent)", required: true, content: <textarea id="intent-input" aria-labelledby="intent-label" value={context} onChange={(e) => setContext(e.target.value)} placeholder="What is the goal of your message?" required />, isUserInput: true },
-      { id: 'draft-label', title: "What I Wrote (Draft)", required: true, content: <textarea id="draft-input" aria-labelledby="draft-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="What are your key points or raw thoughts?" required />, isUserInput: true },
+      { id: 'intent-label', title: "What I Mean (Intent)", required: true, content: <textarea id="intent-input" aria-labelledby="intent-label" value={context} onChange={(e) => setContext(e.target.value)} placeholder="Describe the situation and what you want to achieve with this message." required />, isUserInput: true },
+      { id: 'draft-label', title: "What I Wrote (Draft)", required: true, content: <textarea id="draft-input" aria-labelledby="draft-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="Jot down your initial thoughts or paste a draft. We'll refine it together." required />, isUserInput: true },
       { id: 'explanation-label', title: "How They Might Hear It (Explanation)", content: <div className="ai-output" role="region" aria-labelledby="explanation-label" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
       { id: 'translation-label', title: "The Translation (Suggested Draft)", content: <div className="ai-output" role="region" aria-labelledby="translation-label" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
     ],
     analyze: [
-      { id: 'received-label', title: "What They Wrote (Received Message)", required: true, content: <textarea id="received-input" aria-labelledby="received-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the message you received." required />, isUserInput: true },
-      { id: 'interpretation-label', title: "How I Heard It (My Interpretation)", required: true, content: <textarea id="interpretation-input" aria-labelledby="interpretation-label" value={interpretation} onChange={(e) => setInterpretation(e.target.value)} placeholder="How did this message make you feel or what do you think it means?" required />, isUserInput: true },
+      { id: 'received-label', title: "What They Wrote (Received Message)", required: true, content: <textarea id="received-input" aria-labelledby="received-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the message you received here." required />, isUserInput: true },
+      { id: 'interpretation-label', title: "How I Heard It (My Interpretation)", required: true, content: <textarea id="interpretation-input" aria-labelledby="interpretation-label" value={interpretation} onChange={(e) => setInterpretation(e.target.value)} placeholder="What's your initial take? Describe how this message made you feel." required />, isUserInput: true },
       { id: 'explanation-label-analyze', title: "What They Likely Meant (Explanation)", content: <div className="ai-output" role="region" aria-labelledby="explanation-label-analyze" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
       { id: 'translation-label-analyze', title: "The Translation (Suggested Response)", content: <div className="ai-output" role="region" aria-labelledby="translation-label-analyze" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
     ]
