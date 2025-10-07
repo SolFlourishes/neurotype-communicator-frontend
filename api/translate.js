@@ -1,24 +1,16 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
-  // --- TEMPORARY DEBUGGING LOGS ---
-  console.log('--- Checking Gemini API Key in /api/translate ---');
-  if (process.env.GEMINI_API_KEY) {
-    const key = process.env.GEMINI_API_KEY;
-    console.log(`GEMINI_API_KEY: Exists. Starts with "${key.substring(0, 4)}" and ends with "${key.substring(key.length - 4)}"`);
-  } else {
-    console.log('GEMINI_API_KEY: IS MISSING OR UNDEFINED!');
-  }
-  // --- END DEBUGGING LOGS ---
-
+  // The debug log for the key is no longer needed, as we've confirmed it exists.
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
+
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const { mode, text, context, interpretation, sender, receiver, senderNeurotype, receiverNeurotype, senderGeneration, receiverGeneration } = req.body;
 
-    const personaPrompt = `Your tone should be that of a helpful, direct, and supportive coach...`; // Full persona prompt
+    const personaPrompt = `Your tone should be that of a helpful, direct, and supportive coach. You are truthful but not harsh. Avoid platitudes, overly flowery language, and excessive praise. The primary goal is to empower the user by explaining the 'why' behind communication differences, helping them build skills so they become less dependent on this tool over time.`;
 
     let promptCore = '';
     if (mode === 'draft') {
@@ -49,12 +41,12 @@ export default async function handler(req, res) {
         fullPrompt += `
 CONTEXT: "${context}"
 DRAFT: "${text}"
-Your Task: First, provide the rewritten message...`;
+Your Task: First, provide the rewritten message using HTML for formatting (like <p> and <h3> tags). Then, on a new line, provide the unique separator '|||'. Finally, on a new line, provide the explanation for your changes, also using HTML formatting.`;
     } else if (mode === 'analyze') {
         fullPrompt += `
 MESSAGE: "${text}"
 USER'S INTERPRETATION: "${interpretation}"
-Your Task: First, provide a multi-part analysis...`;
+Your Task: First, provide a multi-part analysis and suggested response as a single HTML string. Then, on a new line, provide the unique separator '|||'. Finally, on a new line, provide the explanation for your work, also using HTML formatting.`;
     }
 
     const model = genAI.getGenerativeModel({ model: 'gemini-pro-latest' });
@@ -71,7 +63,18 @@ Your Task: First, provide a multi-part analysis...`;
         explanation: parts[1].trim()
     });
   } catch (error) {
-    console.error('Error in /api/translate function:', error);
+    // --- NEW, MORE DETAILED ERROR LOGGING ---
+    console.error('CRITICAL ERROR in /api/translate function. Full error object below:');
+    console.error(error);
+
+    // Also log specific details if they exist on the error object
+    if (error.response) {
+      console.error('Error Response Body:', error.response.body);
+    }
+    if (error.details) {
+      console.error('Error Details:', error.details);
+    }
+
     return res.status(500).json({ error: 'An error occurred with the AI service.' });
   }
 }
