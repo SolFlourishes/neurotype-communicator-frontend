@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     // Send the email via the Resend API
     await resend.emails.send({
       // IMPORTANT: This "from" address MUST be a domain you have verified in Resend.
-      from: 'Neurotype Contact Form <sdlieb77@gmail.com>',
+      from: 'Neurotype Contact Form <onboarding@resend.dev>',
       to: process.env.RECIPIENT_EMAIL,
       subject: `New Neurotype Contact Form Submission: ${subject}`,
       reply_to: email, // This sets the reply-to header correctly
