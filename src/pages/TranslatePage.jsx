@@ -5,7 +5,7 @@ import Feedback from '../components/Feedback.jsx';
 import { version } from '../../package.json' with { type: 'json' };
 import './TranslatePage.css';
 
-const { version } = pkg;
+const { version: appVersion } = pkg;
 
 function TranslatePage() {
   const { mode } = useParams();
