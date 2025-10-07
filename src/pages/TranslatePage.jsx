@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Feedback from '../components/Feedback.jsx';
+import pkg from '../../package.json' with { type: 'json' };
 import { version } from '../../package.json' with { type: 'json' };
 import './TranslatePage.css';
 
