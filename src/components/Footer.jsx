@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { version } from '../../package.json'; // Import the version number
+import { track } from '@vercel/analytics/react';
+import { version } from '../../package.json';
 import './Footer.css';
 
 function Footer() {
@@ -10,7 +11,6 @@ function Footer() {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Determine version name based on major version number
   const versionName = version.startsWith('1.') ? 'Alpha' : 'Beta';
 
   const handleSubmit = async (e) => {
@@ -18,20 +18,15 @@ function Footer() {
     setIsLoading(true);
     setMessage('');
 
-    const GOOGLE_FORM_ACTION_URL = "YOUR_GOOGLE_FORM_URL"; // Make sure this is filled in
-    const GOOGLE_FORM_EMAIL_ENTRY_ID = "YOUR_ENTRY_ID"; // Make sure this is filled in
-
-    const formData = new FormData();
-    formData.append(GOOGLE_FORM_EMAIL_ENTRY_ID, email);
-
     try {
-      await fetch(GOOGLE_FORM_ACTION_URL, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors',
-      });
-      setMessage('Thank you for subscribing!');
+      const response = await axios.post('/api/subscribe', { email });
+      setMessage(response.data.message);
       setEmail('');
+
+      // Only track if the signup was new and successful
+      if (response.status < 300 && response.data.message.includes('Successfully')) {
+        track('Listserv Subscribed');
+      }
     } catch (error) {
       setMessage('An error occurred. Please try again.');
       console.error(error);
@@ -45,7 +40,7 @@ function Footer() {
       <div className="footer-content">
         <div className="listserv-signup">
           <h4>Stay Updated</h4>
-          <p>Sign up for notifications of new features and improvements.</p>
+          <p>Sign up to receive notifications of new features and improvements.</p>
           <form onSubmit={handleSubmit} className="signup-form">
             <input
               type="email"
@@ -65,7 +60,6 @@ function Footer() {
           <p>
             &copy; {currentYear} Sol Roberts-Lieb, Ed.D. | <Link to="/credits">Credits</Link>
           </p>
-          {/* --- NEW VERSION NUMBER DISPLAY --- */}
           <p className="version-info">
             Version: {versionName} {version}
           </p>

@@ -8,19 +8,28 @@ import './TranslatePage.css';
 function TranslatePage() {
   const { mode } = useParams();
 
+  // UI State
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
+
+  // Basic Selectors State
   const [senderStyle, setSenderStyle] = useState('let-ai-decide');
   const [receiverStyle, setReceiverStyle] = useState('indirect');
+  
+  // Advanced Selectors State
   const [senderNeurotype, setSenderNeurotype] = useState('unsure');
   const [receiverNeurotype, setReceiverNeurotype] = useState('unsure');
   const [senderGeneration, setSenderGeneration] = useState('unsure');
   const [receiverGeneration, setReceiverGeneration] = useState('unsure');
+
+  // Form & Response State
   const [text, setText] = useState('');
   const [context, setContext] = useState('');
   const [interpretation, setInterpretation] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
+  
+  // Feedback State
   const [responseRating, setResponseRating] = useState(0);
   const [responseComment, setResponseComment] = useState('');
   const [explanationRating, setExplanationRating] = useState(0);
