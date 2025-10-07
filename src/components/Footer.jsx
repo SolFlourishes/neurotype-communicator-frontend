@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { track } from '@vercel/analytics/react';
-import { version } from '../../package.json' with { type: 'json' };
+import pkg from '../../package.json' with { type: 'json' };
 import './Footer.css';
 
 const { version } = pkg;
@@ -25,7 +25,6 @@ function Footer() {
       setMessage(response.data.message);
       setEmail('');
 
-      // Only track if the signup was new and successful
       if (response.status < 300 && response.data.message.includes('Successfully')) {
         track('Listserv Subscribed');
       }
