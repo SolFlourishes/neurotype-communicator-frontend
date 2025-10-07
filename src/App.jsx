@@ -3,11 +3,13 @@ import { Outlet } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import AlphaBanner from './components/AlphaBanner.jsx';
-import { Analytics } from '@vercel/analytics/react'; // 1. Import Analytics
+import FeedbackModal from './components/FeedbackModal.jsx';
+import { Analytics } from '@vercel/analytics/react';
 import './AppLayout.css';
 
 function App() {
   const [showBanner, setShowBanner] = useState(true);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
   const handleDismissBanner = () => {
     setShowBanner(false);
@@ -21,7 +23,12 @@ function App() {
         <Outlet />
       </main>
       <Footer />
-      <Analytics /> {/* 2. Add the Analytics component */}
+      <Analytics />
+
+      <button className="feedback-button" onClick={() => setIsFeedbackOpen(true)}>
+        Feedback
+      </button>
+      <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
     </div>
   );
 }
