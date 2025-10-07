@@ -160,7 +160,7 @@
 .io-box textarea {
   flex-grow: 1;
   width: 100%;
-  min-height: 150px;
+  min-height: 120px; /* CHANGED: Reduced from 150px */
   padding: 0.75rem;
   border-radius: 4px;
   border: 1px solid var(--border);
@@ -176,7 +176,7 @@
   padding: 0.5rem;
   border-radius: 4px;
   background-color: var(--background);
-  min-height: 168px; /* Match textarea min-height + padding */
+  min-height: 144px; /* CHANGED: Adjusted to match new textarea height */
 }
 
 .button-group {
