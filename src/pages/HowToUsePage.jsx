@@ -1,41 +1,55 @@
 import React from 'react';
-import '../Content.css'; // Import shared styles
+import '../Content.css';
 
 function HowToUsePage() {
   return (
     <div className="content-page">
       <h1>How to Use the Communicator</h1>
-      <p className="mission">This guide will help you get the most out of the Neurotype Communicator by explaining its core features with clear examples.</p>
+      <p className="mission">This guide will help you get the most out of the Beta version by explaining its new features and workflows with clear examples.</p>
+      
+      <h2>The "Four-Box" Layout</h2>
+      <p>The core of the app is the new four-box layout, which helps you visualize the communication process. The top two boxes are for your input, and the bottom two are for the AI's output.</p>
 
-      <h2>Choosing Your Mode</h2>
-      <p>The app has three primary modes. Use the homepage to choose the right tool for your specific challenge.</p>
-      <div className="mt-6 space-y-8">
-          <div className="bg-gray-50 p-6 rounded-lg border">
-              <h3>Draft a Message</h3>
-              <p className="mb-4">Select this mode when you have a thought or idea and need help phrasing it effectively for a specific audience. It's your personal writing partner.</p>
-              <div className="bg-white p-4 rounded-md border">
-                  <h4>Example Scenario:</h4>
-                  <p>You (ND) need to tell your NT manager you can't make a work retreat due to personal stress, but you're worried about sounding unprofessional.</p>
-              </div>
-          </div>
-          <div className="bg-gray-50 p-6 rounded-lg border">
-              <h3>Analyze a Message</h3>
-              <p className="mb-4">This mode is your decoder ring for confusing conversations. It helps you see the subtext and craft a strategic reply.</p>
-              <div className="bg-white p-4 rounded-md border">
-                  <h4>Example Scenario:</h4>
-                  <p>You (ND) pitched an idea to an NT colleague, and they replied with, "That's something to think about."</p>
-              </div>
-          </div>
-          <div className="bg-gray-50 p-6 rounded-lg border">
-              <h3>Coach My Response</h3>
-              <p className="mb-4">This mode is for when you're not sure where to start, or want to explore an idea more deeply. It's a free-form chat where you can talk through your situation with the AI.</p>
-          </div>
+      <div className="bg-gray-50 p-6 rounded-lg border">
+          <h3>Draft a Message</h3>
+          <p className="mb-4">Use this mode when you have a thought you need to share effectively.</p>
+          <ul className="list-disc space-y-2">
+            <li><strong>What I Mean (Intent):</strong> Enter the core goal of your message. What do you want the other person to know, feel, or do?</li>
+            <li><strong>What I Wrote (Draft):</strong> Enter your raw thoughts or a rough draft of your message.</li>
+            <li><strong>How They Might Hear It (Explanation):</strong> The AI will explain the potential misinterpretations of your draft and the reasoning behind its suggested changes.</li>
+            <li><strong>The Translation (Suggested Draft):</strong> The AI's final, polished version of your message, tailored for your audience.</li>
+          </ul>
       </div>
 
-      {/* --- NEW SECTION --- */}
+      <div className="bg-gray-50 p-6 rounded-lg border">
+          <h3>Analyze a Message</h3>
+          <p className="mb-4">Use this mode when you receive a message that is confusing or has a hidden meaning.</p>
+          <ul className="list-disc space-y-2">
+            <li><strong>What They Wrote (Received Message):</strong> Paste the message you received.</li>
+            <li><strong>How I Heard It (My Interpretation):</strong> Explain how the message made you feel or what you think it means.</li>
+            <li><strong>What They Likely Meant (Explanation):</strong> The AI will analyze the subtext and likely intent behind the message.</li>
+            <li><strong>The Translation (Suggested Response):</strong> The AI's suggestion for a clear, strategic reply.</li>
+          </ul>
+      </div>
+
+      <h2>Choosing Your Communication Style</h2>
+      <p>Above the four boxes, you'll see new selectors designed to be more inclusive and accurate.</p>
+       <div className="bg-gray-50 p-6 rounded-lg border">
+          <h3>"My Communication Style"</h3>
+          <ul className="list-disc space-y-2">
+            <li><strong>Direct & Literal:</strong> Choose this if you tend to say what you mean and focus on facts.</li>
+            <li><strong>Indirect & Nuanced:</strong> Choose this if you often use context and subtext.</li>
+            <li><strong>Let the AI Decide:</strong> The AI will analyze your writing in the input boxes to automatically determine your style. This is the recommended default.</li>
+          </ul>
+      </div>
+
+      <h2>Using Advanced Mode</h2>
+      <p>Click the "Show Advanced Options" checkbox to reveal more granular selectors that can further refine the AI's response, including options for Neurotype and Generation.</p>
+      
+      {/* --- RESTORED SECTION --- */}
       <h2 style={{ marginTop: '3rem' }}>Practical Applications: Real-World Scenarios 💡</h2>
       <p>Here are just a few ways the Neurotype Communicator can help you in your daily life:</p>
-
+      
       <div className="bg-gray-50 p-6 rounded-lg border">
         <h3 style={{color: '#a0a0ff'}}>When to use "Draft a Message":</h3>
         <ul className="list-disc space-y-2">
@@ -46,7 +60,7 @@ function HowToUsePage() {
           <li>Asking for accommodations or support at work or school.</li>
         </ul>
       </div>
-
+      
       <div className="bg-gray-50 p-6 rounded-lg border">
         <h3 style={{color: '#a0a0ff'}}>When to use "Analyze a Message":</h3>
         <ul className="list-disc space-y-2">
