@@ -8,7 +8,6 @@ import './AppLayout.css';
 
 function App() {
   const [showBanner, setShowBanner] = useState(true);
-  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
   const handleDismissBanner = () => {
     setShowBanner(false);
@@ -23,8 +22,6 @@ function App() {
       </main>
       <Footer />
       <Analytics />
-
-      
     </div>
   );
 }

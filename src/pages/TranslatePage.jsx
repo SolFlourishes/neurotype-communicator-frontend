@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-// Removed: import Feedback from '../components/Feedback.jsx';
-import pkg from '../../package.json' with { type: 'json' };
 import './TranslatePage.css';
-
-const { version } = pkg;
 
 function TranslatePage() {
   const { mode } = useParams();
@@ -31,16 +27,11 @@ function TranslatePage() {
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
   
-  // Removed all Feedback State variables
-  // const [responseRating, setResponseRating] = useState(0);
-  // ... and all others
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
     setAiResponse(null);
-    // Removed: setFeedbackSuccess(null);
 
     let finalSenderStyle = senderStyle;
     const textForClassification = mode === 'draft' ? (context || text) : text; 
@@ -52,7 +43,6 @@ function TranslatePage() {
           setLoading(false);
           return;
         }
-        // Assuming API call is correctly pointed to clean path
         const classificationResponse = await axios.post('/api/classify-style', { text: textForClassification });
         finalSenderStyle = classificationResponse.data.style;
       }
@@ -70,7 +60,6 @@ function TranslatePage() {
         requestBody.receiverGeneration = receiverGeneration;
       }
 
-      // Assuming API call is correctly pointed to clean path
       const translateResponse = await axios.post('/api/translate', requestBody);
       
       const cleanupString = (str) => {
@@ -93,26 +82,12 @@ function TranslatePage() {
   };
 
   const handleReset = () => {
-    setText(''); setContext(''); setInterpretation(''); setError(null);
+    setText(''); 
+    setContext(''); 
+    setInterpretation(''); 
+    setError(null);
     setAiResponse(null); 
-    // Removed: setFeedbackSuccess(null);
   };
-
-  // Removed: handleFeedbackSubmit function
-  /*
-  const handleFeedbackSubmit = async () => {
-    const feedbackData = {
-      responseRating, responseComment, explanationRating,
-      explanationComment, mode, version,
-    };
-    try {
-      await axios.post('/api/feedback', feedbackData);
-      setFeedbackSuccess('Thank you for your feedback!');
-    } catch (err) {
-      console.error('Failed to submit feedback', err);
-    }
-  };
-  */
   
   const isDraftMode = mode === 'draft';
 
@@ -269,7 +244,7 @@ function TranslatePage() {
                 <input type="radio" name="sender-gen" value="Boomer" checked={senderGeneration === 'Boomer'} onChange={(e) => setSenderGeneration(e.target.value)} />
                 Boomer
               </label>
-               <label className={senderGeneration === 'unsure' ? 'selected' : ''}>
+                <label className={senderGeneration === 'unsure' ? 'selected' : ''}>
                 <input type="radio" name="sender-gen" value="unsure" checked={senderGeneration === 'unsure'} onChange={(e) => setSenderGeneration(e.target.value)} />
                 Unsure
               </label>
@@ -278,7 +253,7 @@ function TranslatePage() {
           <div className="selector-group">
             <label>Audience's Generation (Advanced)</label>
             <div className="options">
-               <label className={receiverGeneration === 'Gen Alpha' ? 'selected' : ''}>
+                <label className={receiverGeneration === 'Gen Alpha' ? 'selected' : ''}>
                 <input type="radio" name="receiver-gen" value="Gen Alpha" checked={receiverGeneration === 'Gen Alpha'} onChange={(e) => setReceiverGeneration(e.target.value)} />
                 Gen Alpha
               </label>
@@ -298,11 +273,11 @@ function TranslatePage() {
                 <input type="radio" name="receiver-gen" value="Gen X" checked={receiverGeneration === 'Gen X'} onChange={(e) => setReceiverGeneration(e.target.value)} />
                 Gen X
               </label>
-               <label className={receiverGeneration === 'Boomer' ? 'selected' : ''}>
+                <label className={receiverGeneration === 'Boomer' ? 'selected' : ''}>
                 <input type="radio" name="receiver-gen" value="Boomer" checked={receiverGeneration === 'Boomer'} onChange={(e) => setReceiverGeneration(e.target.value)} />
                 Boomer
               </label>
-               <label className={receiverGeneration === 'unsure' ? 'selected' : ''}>
+                <label className={receiverGeneration === 'unsure' ? 'selected' : ''}>
                 <input type="radio" name="receiver-gen" value="unsure" checked={receiverGeneration === 'unsure'} onChange={(e) => setReceiverGeneration(e.target.value)} />
                 Unsure
               </label>
@@ -311,7 +286,7 @@ function TranslatePage() {
         </div>
       )}
       
-      <div className="four-box-grid">
+      <form onSubmit={handleSubmit} className="four-box-grid">
         {currentBoxes.map((box) => (
           <div key={box.id} className={`io-box ${box.isUserInput ? 'user-input' : ''}`}>
             <h3 id={box.id}>
@@ -321,7 +296,7 @@ function TranslatePage() {
             {box.content}
           </div>
         ))}
-      </div>
+      </form>
 
       <div className="button-group">
         <button onClick={handleSubmit} disabled={loading}>{loading ? 'Thinking...' : 'Translate'}</button>
@@ -333,7 +308,7 @@ function TranslatePage() {
 
       {aiResponse && (
         <div className="response-container">
-          {/* Removed: All Feedback UI */}
+          {/* All Feedback UI has been successfully removed. */}
         </div>
       )}
     </div>
@@ -341,3 +316,4 @@ function TranslatePage() {
 }
 
 export default TranslatePage;
+
