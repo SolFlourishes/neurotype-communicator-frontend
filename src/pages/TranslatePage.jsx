@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import Feedback from '../components/Feedback.jsx';
-// Correct version import for stability
-import pkg from '../../package.json' with { type: 'json' }; 
+// Removed: import Feedback from '../components/Feedback.jsx';
+import pkg from '../../package.json' with { type: 'json' };
 import './TranslatePage.css';
 
 const { version } = pkg;
@@ -32,19 +31,16 @@ function TranslatePage() {
   const [error, setError] = useState(null);
   const [aiResponse, setAiResponse] = useState(null);
   
-  // Feedback State
-  const [responseRating, setResponseRating] = useState(0);
-  const [responseComment, setResponseComment] = useState('');
-  const [explanationRating, setExplanationRating] = useState(0);
-  const [explanationComment, setExplanationComment] = useState('');
-  const [feedbackSuccess, setFeedbackSuccess] = useState(null);
+  // Removed all Feedback State variables
+  // const [responseRating, setResponseRating] = useState(0);
+  // ... and all others
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
     setAiResponse(null);
-    setFeedbackSuccess(null);
+    // Removed: setFeedbackSuccess(null);
 
     let finalSenderStyle = senderStyle;
     const textForClassification = mode === 'draft' ? (context || text) : text; 
@@ -56,7 +52,7 @@ function TranslatePage() {
           setLoading(false);
           return;
         }
-        // FIX: Reverted endpoint path to clean /api/name
+        // Assuming API call is correctly pointed to clean path
         const classificationResponse = await axios.post('/api/classify-style', { text: textForClassification });
         finalSenderStyle = classificationResponse.data.style;
       }
@@ -74,7 +70,7 @@ function TranslatePage() {
         requestBody.receiverGeneration = receiverGeneration;
       }
 
-      // FIX: Reverted endpoint path to clean /api/name
+      // Assuming API call is correctly pointed to clean path
       const translateResponse = await axios.post('/api/translate', requestBody);
       
       const cleanupString = (str) => {
@@ -98,38 +94,37 @@ function TranslatePage() {
 
   const handleReset = () => {
     setText(''); setContext(''); setInterpretation(''); setError(null);
-    setAiResponse(null); setFeedbackSuccess(null);
+    setAiResponse(null); 
+    // Removed: setFeedbackSuccess(null);
   };
 
+  // Removed: handleFeedbackSubmit function
+  /*
   const handleFeedbackSubmit = async () => {
     const feedbackData = {
       responseRating, responseComment, explanationRating,
       explanationComment, mode, version,
     };
     try {
-      // Assuming api/feedback is a stable endpoint
       await axios.post('/api/feedback', feedbackData);
       setFeedbackSuccess('Thank you for your feedback!');
     } catch (err) {
       console.error('Failed to submit feedback', err);
     }
   };
+  */
   
   const isDraftMode = mode === 'draft';
 
   const boxes = {
     draft: [
-      // UX: Updated Placeholder Text
-      { id: 'intent-label', title: "What I Mean (Intent)", required: true, content: <textarea id="intent-input" aria-labelledby="intent-label" value={context} onChange={(e) => setContext(e.target.value)} placeholder="Describe the situation and what you want to achieve with this message." required />, isUserInput: true },
-      // UX: Updated Placeholder Text
-      { id: 'draft-label', title: "What I Wrote (Draft)", required: true, content: <textarea id="draft-input" aria-labelledby="draft-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="Jot down your initial thoughts or paste a draft. We'll refine it together." required />, isUserInput: true },
+      { id: 'intent-label', title: "What I Mean (Intent)", required: true, content: <textarea id="intent-input" aria-labelledby="intent-label" value={context} onChange={(e) => setContext(e.target.value)} placeholder="What is the goal of your message?" required />, isUserInput: true },
+      { id: 'draft-label', title: "What I Wrote (Draft)", required: true, content: <textarea id="draft-input" aria-labelledby="draft-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="What are your key points or raw thoughts?" required />, isUserInput: true },
       { id: 'explanation-label', title: "How They Might Hear It (Explanation)", content: <div className="ai-output" role="region" aria-labelledby="explanation-label" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
       { id: 'translation-label', title: "The Translation (Suggested Draft)", content: <div className="ai-output" role="region" aria-labelledby="translation-label" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
     ],
     analyze: [
-      // UX: Updated Placeholder Text
-      { id: 'received-label', title: "What They Wrote (Received Message)", required: true, content: <textarea id="received-input" aria-labelledby="received-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the message you received here." required />, isUserInput: true },
-      // UX: Updated Placeholder Text
+      { id: 'received-label', title: "What They Wrote (Received Message)", required: true, content: <textarea id="received-input" aria-labelledby="received-label" value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the message you received." required />, isUserInput: true },
       { id: 'interpretation-label', title: "How I Heard It (My Interpretation)", required: true, content: <textarea id="interpretation-input" aria-labelledby="interpretation-label" value={interpretation} onChange={(e) => setInterpretation(e.target.value)} placeholder="How did this message make you feel or what do you think it means?" required />, isUserInput: true },
       { id: 'explanation-label-analyze', title: "What They Likely Meant (Explanation)", content: <div className="ai-output" role="region" aria-labelledby="explanation-label-analyze" dangerouslySetInnerHTML={{ __html: aiResponse?.explanation }} /> },
       { id: 'translation-label-analyze', title: "The Translation (Suggested Response)", content: <div className="ai-output" role="region" aria-labelledby="translation-label-analyze" dangerouslySetInnerHTML={{ __html: aiResponse?.response }} /> },
@@ -338,24 +333,7 @@ function TranslatePage() {
 
       {aiResponse && (
         <div className="response-container">
-          {!feedbackSuccess && (
-            <div className="feedback-container">
-              {/* FIX: Star Rating Callbacks */}
-              <Feedback 
-                title="Rate the 'Suggested Response'" 
-                onRatingChange={(newRating) => setResponseRating(newRating)} 
-                onCommentChange={setResponseComment} 
-              />
-              {/* FIX: Star Rating Callbacks */}
-              <Feedback 
-                title="Rate the 'Explanation'" 
-                onRatingChange={(newRating) => setExplanationRating(newRating)} 
-                onCommentChange={setExplanationComment} 
-              />
-              <button onClick={handleFeedbackSubmit} className="submit-feedback-button">Submit Feedback</button>
-            </div>
-          )}
-          {feedbackSuccess && <div className="success-message">{feedbackSuccess}</div>}
+          {/* Removed: All Feedback UI */}
         </div>
       )}
     </div>
