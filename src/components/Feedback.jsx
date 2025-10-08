@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Feedback.css'; 
 
 function Feedback({ title, onRatingChange, onCommentChange }) {
   // Local state to manage the selected rating (1-5) and the hover state
@@ -8,18 +9,18 @@ function Feedback({ title, onRatingChange, onCommentChange }) {
 
   const handleStarClick = (index) => {
     setRating(index);
-    onRatingChange(index); // This passes the new rating back to the parent component
+    onRatingChange(index); // Pass the new rating back to the parent component
   };
 
   const handleCommentChange = (event) => {
     const newComment = event.target.value;
     setComment(newComment);
-    onCommentChange(newComment); // This passes the comment back to the parent component
+    onCommentChange(newComment); // Pass the comment back to the parent component
   };
 
   return (
     <div className="feedback-group">
-      <h4>{title} <span className="required-asterisk">*</span></h4>
+      <h4 className="feedback-title">{title} <span className="required-asterisk">*</span></h4>
       
       {/* 5-Star Rating System */}
       <div className="star-rating">
@@ -34,7 +35,7 @@ function Feedback({ title, onRatingChange, onCommentChange }) {
               onMouseEnter={() => setHover(index)}
               onMouseLeave={() => setHover(rating)}
             >
-              {/* Using a standard star character for accessibility and simplicity */}
+              {/* Using a standard star character for simplicity and universal rendering */}
               <span className="star-icon">★</span> 
             </button>
           );
