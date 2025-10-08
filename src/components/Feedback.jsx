@@ -9,13 +9,13 @@ function Feedback({ title, onRatingChange, onCommentChange }) {
 
   const handleStarClick = (index) => {
     setRating(index);
-    onRatingChange(index); // Pass the new rating back to the parent component
+    onRatingChange(index); // This passes the new rating back to the parent component
   };
 
   const handleCommentChange = (event) => {
     const newComment = event.target.value;
     setComment(newComment);
-    onCommentChange(newComment); // Pass the comment back to the parent component
+    onCommentChange(newComment); // This passes the comment back to the parent component
   };
 
   return (

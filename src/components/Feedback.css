@@ -1,5 +1,7 @@
 /* File: src/components/Feedback.css */
 
+/* Reverting the alpha-banner code, but including the necessary feedback styles */
+
 .feedback-group {
     padding: 1rem;
     border: 1px solid var(--border, #444); /* Ensure it matches the app's borders */
@@ -60,11 +62,11 @@
 }
 
 .feedback-comment-area textarea {
-    min-height: 80px; /* Fixes the "tiny box" issue */
+    min-height: 80px; /* Fixes the "tiny box" issue and sets size */
     max-height: 150px; 
     width: 100%; 
     padding: 0.75rem;
-    box-sizing: border-box; /* Ensure padding doesn't widen the box */
+    box-sizing: border-box; /* Ensures padding doesn't widen the box */
     border: 1px solid var(--border, #444);
     border-radius: 4px;
     background-color: var(--background, #242424);
