@@ -1,36 +1,56 @@
 import React, { useState } from 'react';
-import './Feedback.css';
 
 function Feedback({ title, onRatingChange, onCommentChange }) {
+  // Local state to manage the selected rating (1-5) and the hover state
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [comment, setComment] = useState('');
 
-  const handleRatingClick = (newRating) => {
-    setRating(newRating);
-    onRatingChange(newRating);
+  const handleStarClick = (index) => {
+    setRating(index);
+    onRatingChange(index); // This passes the new rating back to the parent component
+  };
+
+  const handleCommentChange = (event) => {
+    const newComment = event.target.value;
+    setComment(newComment);
+    onCommentChange(newComment); // This passes the comment back to the parent component
   };
 
   return (
-    <div className="feedback-box">
-      <h3>{title}</h3>
-      <div className="stars-container">
-        {[1, 2, 3, 4, 5].map((starIndex) => (
-          <span
-            key={starIndex}
-            className={`star ${starIndex <= (hoverRating || rating) ? 'filled' : ''}`}
-            onClick={() => handleRatingClick(starIndex)}
-            onMouseEnter={() => setHoverRating(starIndex)}
-            onMouseLeave={() => setHoverRating(0)}
-          >
-            ★
-          </span>
-        ))}
+    <div className="feedback-group">
+      <h4>{title} <span className="required-asterisk">*</span></h4>
+      
+      {/* 5-Star Rating System */}
+      <div className="star-rating">
+        {[...Array(5)].map((star, index) => {
+          index += 1;
+          return (
+            <button
+              type="button"
+              key={index}
+              className={index <= (hover || rating) ? "star selected" : "star"}
+              onClick={() => handleStarClick(index)}
+              onMouseEnter={() => setHover(index)}
+              onMouseLeave={() => setHover(rating)}
+            >
+              {/* Using a standard star character for accessibility and simplicity */}
+              <span className="star-icon">★</span> 
+            </button>
+          );
+        })}
       </div>
-      <textarea
-        className="comment-box"
-        placeholder="Optional: Add a comment..."
-        onChange={(e) => onCommentChange(e.target.value)}
-      />
+
+      {/* Comment Box */}
+      <div className="feedback-comment-area">
+        <label htmlFor={`comment-${title.replace(/\s/g, '-')}`}>Comments (Optional)</label>
+        <textarea
+          id={`comment-${title.replace(/\s/g, '-')}`}
+          value={comment}
+          onChange={handleCommentChange}
+          placeholder="Share your thoughts on this output..."
+        />
+      </div>
     </div>
   );
 }

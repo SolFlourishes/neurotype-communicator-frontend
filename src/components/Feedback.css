@@ -1,57 +1,36 @@
-.alpha-banner {
-  background-color: #535bf2; /* The original Alpha blue color */
-  color: white;
-  padding: 0.75rem 2rem;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+/* Styling to make the stars visible and clickable */
+.star-rating {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
 }
 
-.alpha-banner p {
-  margin: 0;
-  padding-right: 2rem; /* Space for the button */
+.star-rating button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666; /* Default star color (unselected) */
+    font-size: 1.5rem;
+    padding: 0 0.1rem;
+    transition: color 0.2s;
 }
 
-.alpha-banner strong {
-    font-weight: bold;
+.star-rating .star.selected,
+.star-rating button:hover {
+    color: gold; /* Color when selected or hovered */
 }
 
-.dismiss-button {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  opacity: 0.7;
-}
-
-.dismiss-button:hover {
-    opacity: 1;
-}
-
-/* --- FEEDBACK COMPONENT STYLING FIX --- */
-
-.feedback-comment-area {
-    margin-top: 0.5rem;
-}
-
+/* Styling to fix the size of the comment box */
 .feedback-comment-area textarea {
-    min-height: 80px; /* Ensures the box is readable and not "tiny" */
-    max-height: 150px; /* Limits maximum expansion */
+    min-height: 80px; 
+    max-height: 150px;
     width: 100%; 
     padding: 0.75rem;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border); 
     border-radius: 4px;
     background-color: var(--background);
     color: var(--text-primary);
     font-family: inherit;
     font-size: 1rem;
-    resize: vertical; /* Allows users to resize vertically */
+    resize: vertical; 
 }
