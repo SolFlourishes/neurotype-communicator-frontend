@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import AlphaBanner from './components/AlphaBanner.jsx';
-import FeedbackModal from './components/FeedbackModal.jsx';
 import { Analytics } from '@vercel/analytics/react';
 import './AppLayout.css';
 
@@ -25,10 +24,7 @@ function App() {
       <Footer />
       <Analytics />
 
-      <button className="feedback-button" onClick={() => setIsFeedbackOpen(true)}>
-        Feedback
-      </button>
-      <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
+      
     </div>
   );
 }
